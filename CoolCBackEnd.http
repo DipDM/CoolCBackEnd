@@ -1,0 +1,6 @@
+@CoolCBackEnd_HostAddress = http://localhost:5277
+
+GET {{CoolCBackEnd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
