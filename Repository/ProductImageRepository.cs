@@ -30,7 +30,7 @@ namespace CoolCBackEnd.Repository
             }
 
             // 2. Get the count of existing images for the product
-            var existingImagesCount = await _context.ProductImage
+            var existingImagesCount = await _context.ProductImages
                                                      .Where(pi => pi.ProductId == productId)
                                                      .CountAsync();
 
@@ -64,7 +64,7 @@ namespace CoolCBackEnd.Repository
             };
 
             // 9. Save the ProductImage record to the database
-            _context.ProductImage.Add(productImage);
+            _context.ProductImages.Add(productImage);
             await _context.SaveChangesAsync();
 
             return productImage;
@@ -72,13 +72,13 @@ namespace CoolCBackEnd.Repository
 
         public async Task<ProductImage> DeleteAsync(int id)
         {
-            var productImage = await _context.ProductImage.FindAsync(id);
+            var productImage = await _context.ProductImages.FindAsync(id);
             if (productImage == null)
             {
                 throw new ArgumentException("Product image not found");
             }
 
-            _context.ProductImage.Remove(productImage);
+            _context.ProductImages.Remove(productImage);
             await _context.SaveChangesAsync();
 
             // Optionally delete the file from the server
@@ -92,24 +92,24 @@ namespace CoolCBackEnd.Repository
 
         public async Task<List<ProductImage>> GetAllAsync()
         {
-            return await _context.ProductImage.ToListAsync();
+            return await _context.ProductImages.ToListAsync();
         }
 
         public async Task<ProductImage> GetByIdAsync(int ProductId)
         {
-            return await _context.ProductImage.FindAsync(ProductId);
+            return await _context.ProductImages.FindAsync(ProductId);
         }
 
         public async Task<ProductImage> UpdatedAsync(int id, ProductImage productImageModel)
         {
-            var existingProductImage = await _context.ProductImage.FindAsync(id);
+            var existingProductImage = await _context.ProductImages.FindAsync(id);
             if (existingProductImage == null)
             {
                 throw new ArgumentException("Product image not found");
             }
 
             existingProductImage.ImagePath = productImageModel.ImagePath;
-            _context.ProductImage.Update(existingProductImage);
+            _context.ProductImages.Update(existingProductImage);
             await _context.SaveChangesAsync();
 
             return existingProductImage;
@@ -117,7 +117,7 @@ namespace CoolCBackEnd.Repository
 
         public async Task RemoveAsync(ProductImage productImage)
         {
-            _context.ProductImage.Remove(productImage);
+            _context.ProductImages.Remove(productImage);
             await _context.SaveChangesAsync();
         }
 

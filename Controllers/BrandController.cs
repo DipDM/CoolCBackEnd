@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using CoolCBackEnd.Dtos.Brand;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoolCBackEnd.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class BrandController : ControllerBase
     {
         private readonly IBrandRepository _brandRepo;
@@ -19,7 +22,7 @@ namespace CoolCBackEnd.Controllers
         {
             _brandRepo = brandRepo;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

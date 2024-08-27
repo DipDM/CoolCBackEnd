@@ -10,81 +10,81 @@ using Microsoft.AspNetCore.Mvc;
 namespace CoolCBackEnd.Controllers
 {
     [ApiController]
-[Route("api/[controller]")]
-public class ShippingDetailController : ControllerBase
-{
-    private readonly IShippingDetailRepository _shippingDetailRepository;
-
-    public ShippingDetailController(IShippingDetailRepository shippingDetailRepository)
+    [Route("api/[controller]")]
+    public class ShippingDetailController : ControllerBase
     {
-        _shippingDetailRepository = shippingDetailRepository;
-    }
+        private readonly IShippingDetailRepository _shippingDetailRepository;
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateShippingDetailDto createDto)
-    {
-        if (!ModelState.IsValid)
+        public ShippingDetailController(IShippingDetailRepository shippingDetailRepository)
         {
-            return BadRequest(ModelState);
+            _shippingDetailRepository = shippingDetailRepository;
         }
 
-        var shippingDetail = createDto.ToEntity();
-        var createdShippingDetail = await _shippingDetailRepository.CreateAsync(shippingDetail);
-
-        return CreatedAtAction(nameof(GetById), new { id = createdShippingDetail.ShippingDetailId }, createdShippingDetail.ToShippingDto());
-    }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        var shippingDetail = await _shippingDetailRepository.GetByIdAsync(id);
-        if (shippingDetail == null)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateShippingDetailDto createDto)
         {
-            return NotFound();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var shippingDetail = createDto.ToEntity();
+            var createdShippingDetail = await _shippingDetailRepository.CreateAsync(shippingDetail);
+
+            return CreatedAtAction(nameof(GetById), new { id = createdShippingDetail.ShippingDetailId }, createdShippingDetail.ToShippingDto());
         }
 
-        return Ok(shippingDetail.ToShippingDto());
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var shippingDetails = await _shippingDetailRepository.GetAllAsync();
-        return Ok(shippingDetails.Select(sd => sd.ToShippingDto()));
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] UpdateShippingDetailDto updateDto)
-    {
-        if (!ModelState.IsValid)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return BadRequest(ModelState);
+            var shippingDetail = await _shippingDetailRepository.GetByIdAsync(id);
+            if (shippingDetail == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(shippingDetail.ToShippingDto());
         }
 
-        var existingShippingDetail = await _shippingDetailRepository.GetByIdAsync(id);
-        if (existingShippingDetail == null)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            return NotFound();
+            var shippingDetails = await _shippingDetailRepository.GetAllAsync();
+            return Ok(shippingDetails.Select(sd => sd.ToShippingDto()));
         }
 
-        existingShippingDetail.ApplyUpdates(updateDto);
-        var updatedShippingDetail = await _shippingDetailRepository.UpdateAsync(id, existingShippingDetail);
-
-        return Ok(updatedShippingDetail.ToShippingDto());
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var shippingDetail = await _shippingDetailRepository.GetByIdAsync(id);
-        if (shippingDetail == null)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateShippingDetailDto updateDto)
         {
-            return NotFound();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingShippingDetail = await _shippingDetailRepository.GetByIdAsync(id);
+            if (existingShippingDetail == null)
+            {
+                return NotFound();
+            }
+
+            existingShippingDetail.ApplyUpdates(updateDto);
+            var updatedShippingDetail = await _shippingDetailRepository.UpdateAsync(id, existingShippingDetail);
+
+            return Ok(updatedShippingDetail.ToShippingDto());
         }
 
-        await _shippingDetailRepository.DeleteAsync(id);
-        return NoContent();
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var shippingDetail = await _shippingDetailRepository.GetByIdAsync(id);
+            if (shippingDetail == null)
+            {
+                return NotFound();
+            }
+
+            await _shippingDetailRepository.DeleteAsync(id);
+            return NoContent();
+        }
     }
-}
 
 }
