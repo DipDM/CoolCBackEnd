@@ -6,12 +6,14 @@ using CoolCBackEnd.Dtos.Address;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Mappers;
 using CoolCBackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoolCBackEnd.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AddressController : ControllerBase
     {
         private readonly IAddressRepository _addressRepository;

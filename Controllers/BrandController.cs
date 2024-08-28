@@ -13,7 +13,6 @@ namespace CoolCBackEnd.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class BrandController : ControllerBase
     {
         private readonly IBrandRepository _brandRepo;

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoolCBackEnd.Data
 {
-    public class ApplicationDBContext : IdentityDbContext<User, ApplicationRole, string>
+    public class ApplicationDBContext : IdentityDbContext<User>
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
             : base(options)
@@ -29,28 +29,12 @@ namespace CoolCBackEnd.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ShippingDetail> ShippingDetails { get; set; }
-        public DbSet<Admin> Admins { get; set; }
 
-        public DbSet<ApplicationRole> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed roles here
-            modelBuilder.Entity<ApplicationRole>().HasData(
-                new ApplicationRole { Id = "admin-role-id", Name = "Admin", NormalizedName = "ADMIN",Description = "Admin role" },
-                new ApplicationRole { Id = "user-role-id", Name = "User", NormalizedName = "USER",Description = "Admin role" }
-            );
-
-            modelBuilder.Entity<ApplicationRole>()
-        .ToTable("AspNetRoles")
-        .HasKey(r => r.Id);
-
-          modelBuilder.Entity<ApplicationRole>()
-        .Property(r => r.Description)
-        .HasColumnType("nvarchar(256)")
-        .HasMaxLength(256);
 
 
             // Configure relationships
@@ -71,6 +55,21 @@ namespace CoolCBackEnd.Data
                 .HasOne(oi => oi.Order)
                 .WithMany(o => o.OrderItems)
                 .HasForeignKey(oi => oi.OrderId);
+
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                },
+                new IdentityRole
+                {
+                    Name="User",
+                    NormalizedName="USER"
+                }
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }

@@ -4717,6 +4717,7 @@
       "Microsoft.EntityFrameworkCore.Design >= 8.0.8",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.8",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.8",
+      "Microsoft.Extensions.Logging >= 8.0.0",
       "Microsoft.IdentityModel.Tokens >= 8.0.2",
       "Newtonsoft.Json >= 13.0.3",
       "Swashbuckle.AspNetCore >= 6.4.0",
@@ -4730,11 +4731,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\CoolCBackEnd.csproj",
+      "projectUniqueName": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\CoolCBackEnd.csproj",
       "projectName": "CoolCBackEnd",
-      "projectPath": "d:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\CoolCBackEnd.csproj",
+      "projectPath": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\CoolCBackEnd.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "d:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\obj\\",
+      "outputPath": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -4811,6 +4812,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[8.0.8, )"
+          },
+          "Microsoft.Extensions.Logging": {
+            "target": "Package",
+            "version": "[8.0.0, )"
           },
           "Microsoft.IdentityModel.Tokens": {
             "target": "Package",
