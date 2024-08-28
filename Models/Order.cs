@@ -13,6 +13,9 @@ namespace CoolCBackEnd.Models
         public string OrderStatus{get; set;}
         public string PaymentStatus{get; set;}
         public int TotalAmount{get; set;}
+        public Guid UserId {get; set;}
+        public User User {get; set;}
         public ICollection<OrderItem> OrderItems{get; set;}
+        public ICollection<ShippingDetail> ShippingDetails {get; set;}
     }
 }

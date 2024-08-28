@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoolCBackEnd.Data
 {
-    public class ApplicationDBContext : IdentityDbContext<User>
+    public class ApplicationDBContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
             : base(options)
@@ -30,20 +30,50 @@ namespace CoolCBackEnd.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ShippingDetail> ShippingDetails { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // Rename the UserId property to match the GUID type
+            modelBuilder.Entity<User>()
+                .Property(u => u.Id)
+                .HasColumnName("UserId");
 
+            // Configure foreign keys for User-related entities
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Carts)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Addresses)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Avoid multiple cascade paths by setting DeleteBehavior to NoAction for ShippingDetail
+            modelBuilder.Entity<ShippingDetail>()
+                .HasOne(sd => sd.Order)
+                .WithMany(o => o.ShippingDetails)
+                .HasForeignKey(sd => sd.OrderId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure relationships
-            modelBuilder.Entity<Cart>()
-                .HasKey(c => c.CartId);
-
-            modelBuilder.Entity<CartItem>()
-                .HasKey(ci => ci.CartItemId);
-
+            modelBuilder.Entity<Cart>().HasKey(c => c.CartId);
+            modelBuilder.Entity<CartItem>().HasKey(ci => ci.CartItemId);
             modelBuilder.Entity<CartItem>()
                 .HasOne(ci => ci.Cart)
                 .WithMany(c => c.CartItems)
@@ -56,20 +86,23 @@ namespace CoolCBackEnd.Data
                 .WithMany(o => o.OrderItems)
                 .HasForeignKey(oi => oi.OrderId);
 
-            List<IdentityRole> roles = new List<IdentityRole>
+            // Seeding roles with GUID Ids
+            List<IdentityRole<Guid>> roles = new List<IdentityRole<Guid>>
             {
-                new IdentityRole
+                new IdentityRole<Guid>
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 },
-                new IdentityRole
+                new IdentityRole<Guid>
                 {
-                    Name="User",
-                    NormalizedName="USER"
+                    Id = Guid.NewGuid(),
+                    Name = "User",
+                    NormalizedName = "USER"
                 }
             };
-            modelBuilder.Entity<IdentityRole>().HasData(roles);
+            modelBuilder.Entity<IdentityRole<Guid>>().HasData(roles);
         }
     }
 }

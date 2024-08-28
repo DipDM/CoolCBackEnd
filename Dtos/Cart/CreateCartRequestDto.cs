@@ -7,6 +7,6 @@ namespace CoolCBackEnd.Dtos.Cart
 {
     public class CreateCartRequestDto
     {
-        
+        public Guid UserId {get; set;}
     }
 }

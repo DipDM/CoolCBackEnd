@@ -7,7 +7,7 @@ namespace CoolCBackEnd.Dtos.ShippingDetail
 {
     public class CreateShippingDetailDto
     {
-    public int OrderId { get; set; }
+    public Guid OrderId { get; set; }
     public int AddressId { get; set; }
     public string ShippingStatus { get; set; }
     public string TrackingNumber { get; set; }
