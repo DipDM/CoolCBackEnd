@@ -19,7 +19,6 @@ namespace CoolCBackEnd.Repository
         {
             _context = context;
         }
-
         public async Task<ProductImage> CreateAsync(IFormFile imageFile, int productId)
         {
             // 1. Retrieve the Product
@@ -29,47 +28,54 @@ namespace CoolCBackEnd.Repository
                 throw new ArgumentException("Product not found");
             }
 
-            // 2. Get the count of existing images for the product
-            var existingImagesCount = await _context.ProductImages
-                                                     .Where(pi => pi.ProductId == productId)
-                                                     .CountAsync();
+            // 2. Retrieve the Brand using the brandId from the Product
+            var brand = await _context.Brands.FindAsync(product.BrandId);
+            if (brand == null)
+            {
+                throw new ArgumentException("Brand not found");
+            }
 
-            // 3. Generate the new sequential serial number
+            // 3. Get the count of existing images for the product
+            var existingImagesCount = await _context.ProductImages
+                                                    .Where(pi => pi.ProductId == productId)
+                                                    .CountAsync();
+
+            // 4. Generate the new sequential serial number
             var serialNumber = (existingImagesCount + 1).ToString();
 
-            // 4. Create a specific folder for the product inside wwwroot/images
-            var productFolder = Path.Combine("wwwroot", "images", product.Name);
+            // 5. Create a specific folder for the product inside wwwroot/images
+            var folderName = $"{brand.Name}_{product.Name}";
+            var productFolder = Path.Combine("wwwroot", "images", folderName);
             if (!Directory.Exists(productFolder))
             {
                 Directory.CreateDirectory(productFolder);  // Create the directory if it doesn't exist
             }
 
-            // 5. Construct the new file name using the product name and sequential serial number
-            var fileName = $"{product.Name}_{serialNumber}{Path.GetExtension(imageFile.FileName)}";
+            // 6. Construct the new file name using the brand name, product name, and sequential serial number
+            var fileName = $"{folderName}_{serialNumber}{Path.GetExtension(imageFile.FileName)}";
 
-            // 6. Define the path to save the image inside the product-specific folder
+            // 7. Define the path to save the image inside the product-specific folder
             var imagePath = Path.Combine(productFolder, fileName);
 
-            // 7. Save the image to the specified path
+            // 8. Save the image to the specified path
             using (var stream = new FileStream(imagePath, FileMode.Create))
             {
                 await imageFile.CopyToAsync(stream);
             }
 
-            // 8. Create a new ProductImage record
+            // 9. Create a new ProductImage record
             var productImage = new ProductImage
             {
                 ProductId = productId,
-                ImagePath = Path.Combine("images", product.Name, fileName),  // Save the relative path to the database
+                ImagePath = Path.Combine("images", folderName, fileName),  // Save the relative path to the database
             };
 
-            // 9. Save the ProductImage record to the database
+            // 10. Save the ProductImage record to the database
             _context.ProductImages.Add(productImage);
             await _context.SaveChangesAsync();
 
             return productImage;
         }
-
         public async Task<ProductImage> DeleteAsync(int id)
         {
             var productImage = await _context.ProductImages.FindAsync(id);

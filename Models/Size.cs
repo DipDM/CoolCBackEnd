@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace CoolCBackEnd.Models
 {
-    public class Brand
+    public class Size
     {
         [Key]
-        public int BrandId {get; set;}
-        public string Name {get; set;}
-        public string NickName {get; set;}
-        public ICollection<Product> Products {get; set;}
+        public int SizeId {get; set;}
+        public string? SizeName {get; set;}  
     }
 }

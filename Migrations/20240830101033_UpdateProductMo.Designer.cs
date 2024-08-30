@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoolCBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240828131801_UpdateIdentityRoles")]
-    partial class UpdateIdentityRoles
+    [Migration("20240830101033_UpdateProductMo")]
+    partial class UpdateProductMo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -420,13 +420,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("059b02c7-4919-4e85-a1a8-ddcf49bc28f9"),
+                            Id = new Guid("84e84656-d359-4371-ab1c-80fd2a06aad8"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("2a26d7b6-830d-4351-ac54-eff1799e1391"),
+                            Id = new Guid("1dc5b270-1f70-4ec3-abc5-8a2d536724e0"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -618,12 +618,14 @@ namespace CoolCBackEnd.Migrations
             modelBuilder.Entity("CoolCBackEnd.Models.Product", b =>
                 {
                     b.HasOne("CoolCBackEnd.Models.Brand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId");
+                        .WithMany("Products")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CoolCBackEnd.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Brand");
 
@@ -711,9 +713,19 @@ namespace CoolCBackEnd.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CoolCBackEnd.Models.Brand", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("CoolCBackEnd.Models.Cart", b =>
                 {
                     b.Navigation("CartItems");
+                });
+
+            modelBuilder.Entity("CoolCBackEnd.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("CoolCBackEnd.Models.Order", b =>

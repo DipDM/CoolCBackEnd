@@ -44,6 +44,8 @@ namespace CoolCBackEnd.Controllers
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
+                BrandId = p.BrandId,
+                CategoryId = p.CategoryId,
                 ProductImages = p.ProductImages.Select(pi => new ProductImageDto
                 {
                     ProductImageId = pi.ProductImageId,
@@ -114,6 +116,8 @@ namespace CoolCBackEnd.Controllers
                 CategoryId = productDto.CategoryId,
                 BrandId = productDto.BrandId
             };
+            // Example for debugging
+Console.WriteLine($"BrandId: {productDto.BrandId}");
 
             await _productRepo.CreatedAsync(productModel);
             return CreatedAtAction(nameof(GetById), new { ProductId = productModel.ProductId }, productModel.ToProductDto());

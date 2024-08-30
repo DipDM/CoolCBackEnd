@@ -13,7 +13,6 @@ namespace CoolCBackEnd.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class AddressController : ControllerBase
     {
         private readonly IAddressRepository _addressRepository;

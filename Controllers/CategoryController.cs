@@ -40,7 +40,7 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateCategoryRequestDto categorycreateDto)
+        public async Task<IActionResult> Create([FromBody] CreateCategoryRequestDto categorycreateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPut("{CategoryId:int}")]
-        public async Task<IActionResult> Update(int CategoryId,[FromForm] UpdateCategoryRequestDto updatecategoryDto)
+        public async Task<IActionResult> Update(int CategoryId,[FromBody] UpdateCategoryRequestDto updatecategoryDto)
         {
             if (!ModelState.IsValid)
             {

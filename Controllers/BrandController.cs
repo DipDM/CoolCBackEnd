@@ -21,7 +21,6 @@ namespace CoolCBackEnd.Controllers
         {
             _brandRepo = brandRepo;
         }
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -42,7 +41,7 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateBrandRequestDto brandDto)
+        public async Task<IActionResult> Create( CreateBrandRequestDto brandDto)
         {
             if (!ModelState.IsValid)
             {
@@ -59,7 +58,7 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPut("{BrandId:int}")]
-        public async Task<IActionResult> Update(int BrandId, [FromForm] UpdateBrandRequestDto brandupdateDto)
+        public async Task<IActionResult> Update(int BrandId,  UpdateBrandRequestDto brandupdateDto)
         {
             if (!ModelState.IsValid)
             {
