@@ -48,6 +48,7 @@ builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IShippingDetailRepository, ShippingDetailRepository>();
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<ISizeRepository,SizeRepository>();
+builder.Services.AddScoped<IProductSizeRepository,ProductSizeRepository>();
 
 
 builder.Services.AddAuthentication(options =>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CoolCBackEnd.Data;
 using CoolCBackEnd.Dtos.Product;
 using CoolCBackEnd.Dtos.ProductImage;
+using CoolCBackEnd.Dtos.ProductSize;
 using CoolCBackEnd.Helpers;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Mappers;
@@ -50,6 +51,11 @@ namespace CoolCBackEnd.Controllers
                 {
                     ProductImageId = pi.ProductImageId,
                     ImagePath = pi.ImagePath
+                }).ToList(),
+                ProductSizes = p.ProductSizes.Select(f => new ProductSizeDto
+                {
+                    ProductSizeId = f.ProductSizeId,
+                    SizeId = f.SizeId 
                 }).ToList()
             }).ToList();
             var totalItems = await _productRepo.CountAsync(query);
@@ -93,6 +99,11 @@ namespace CoolCBackEnd.Controllers
                 {
                     ProductImageId = pi.ProductImageId,
                     ImagePath = pi.ImagePath
+                }).ToList(),
+                ProductSizes = product.ProductSizes.Select(ps => new ProductSizeDto
+                {
+                    ProductSizeId = ps.ProductSizeId,
+                    SizeId = ps.SizeId
                 }).ToList()
             };
 

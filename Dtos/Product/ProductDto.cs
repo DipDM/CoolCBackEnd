@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoolCBackEnd.Dtos.Comment;
 using CoolCBackEnd.Dtos.ProductImage;
+using CoolCBackEnd.Dtos.ProductSize;
 
 namespace CoolCBackEnd.Dtos.Product
 {
@@ -20,5 +21,6 @@ namespace CoolCBackEnd.Dtos.Product
         
         public List<ProductImageDto> ProductImages {get; set;}
         public List<CommentDto> Comments {get; set;} 
+        public List<ProductSizeDto> ProductSizes {get; set;}
     }
 }

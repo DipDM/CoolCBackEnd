@@ -26,5 +26,6 @@ namespace CoolCBackEnd.Models
         public Brand? Brand {get; set;}
         public List<ProductImage> ProductImages {get; set;} = new List<ProductImage>();
         public List<Comment> Comments {get; set;} = new List<Comment>();
+        public ICollection<ProductSize> ProductSizes {get; set;}
     }
 }

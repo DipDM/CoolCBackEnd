@@ -63,6 +63,8 @@ namespace CoolCBackEnd.Repository
         {
             var products = _context.Products
             .Include(p => p.ProductImages)
+            .Include(c => c.ProductSizes)
+            .ThenInclude(l => l.Size)
             .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.Name))
@@ -99,7 +101,7 @@ namespace CoolCBackEnd.Repository
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _context.Products.Include(p => p.ProductImages)
+            return await _context.Products.Include(p => p.ProductImages).Include( f => f.ProductSizes).ThenInclude(ps => ps.Size)
                                 .FirstOrDefaultAsync(p => p.ProductId == id);
         }
 

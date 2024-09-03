@@ -29,6 +29,7 @@ namespace CoolCBackEnd.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ShippingDetail> ShippingDetails { get; set; }
+        public DbSet<ProductSize> ProductSizes {get; set;}
         public DbSet<Size> Sizes {get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

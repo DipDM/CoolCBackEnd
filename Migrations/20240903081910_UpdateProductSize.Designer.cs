@@ -4,6 +4,7 @@ using CoolCBackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoolCBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240903081910_UpdateProductSize")]
+    partial class UpdateProductSize
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -456,13 +459,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("93789fcf-4de0-4cc4-9d09-5907b338ad16"),
+                            Id = new Guid("12f364dc-09dd-4423-9a48-427861df1224"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("3ebb8550-f945-41c3-8d11-8811c74d918d"),
+                            Id = new Guid("da6cc494-6495-468a-9349-f849132ab3a9"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
