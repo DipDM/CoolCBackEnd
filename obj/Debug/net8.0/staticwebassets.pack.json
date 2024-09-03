@@ -1,20 +1,12 @@
 {
   "Files": [
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Dipesh\\Dipesh_7.jpg",
-      "PackagePath": "staticwebassets\\images\\Dipesh\\Dipesh_7.jpg"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\string_Honey Singh\\string_Honey Singh_1.png",
+      "PackagePath": "staticwebassets\\images\\string_Honey Singh\\string_Honey Singh_1.png"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Valet\\Valet_1.jpg",
-      "PackagePath": "staticwebassets\\images\\Valet\\Valet_1.jpg"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Valet\\Valet_2.jpg",
-      "PackagePath": "staticwebassets\\images\\Valet\\Valet_2.jpg"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Valet\\Valet_3.jpg",
-      "PackagePath": "staticwebassets\\images\\Valet\\Valet_3.jpg"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\string_Honey Singh\\string_Honey Singh_2.png",
+      "PackagePath": "staticwebassets\\images\\string_Honey Singh\\string_Honey Singh_2.png"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CoolCBackEnd.Microsoft.AspNetCore.StaticWebAssets.props",
