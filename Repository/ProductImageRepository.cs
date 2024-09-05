@@ -45,7 +45,7 @@ namespace CoolCBackEnd.Repository
 
             // 5. Create a specific folder for the product inside wwwroot/images
             var folderName = $"{brand.Name}_{product.Name}";
-            var productFolder = Path.Combine("wwwroot", "images", folderName);
+            var productFolder = Path.Combine(@"D:\gram\development\Complete\CoolC\DClothesBackend\wwwroot\images", folderName);
             if (!Directory.Exists(productFolder))
             {
                 Directory.CreateDirectory(productFolder);  // Create the directory if it doesn't exist
@@ -126,6 +126,5 @@ namespace CoolCBackEnd.Repository
             _context.ProductImages.Remove(productImage);
             await _context.SaveChangesAsync();
         }
-
     }
 }
