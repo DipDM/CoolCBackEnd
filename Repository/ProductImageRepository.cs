@@ -45,7 +45,7 @@ namespace CoolCBackEnd.Repository
 
             // 5. Create a specific folder for the product inside wwwroot/images
             var folderName = $"{brand.Name}_{product.Name}";
-            var productFolder = Path.Combine(@"D:\gram\development\Complete\CoolC\DClothesBackend\wwwroot\images", folderName);
+            var productFolder = Path.Combine(@"D:\gram\development\Complete\CoolC\CoolCBackend\wwwroot\images", folderName);
             if (!Directory.Exists(productFolder))
             {
                 Directory.CreateDirectory(productFolder);  // Create the directory if it doesn't exist
@@ -76,9 +76,9 @@ namespace CoolCBackEnd.Repository
 
             return productImage;
         }
-        public async Task<ProductImage> DeleteAsync(int id)
+        public async Task<ProductImage> DeleteAsync(int productImageId)
         {
-            var productImage = await _context.ProductImages.FindAsync(id);
+            var productImage = await _context.ProductImages.FindAsync(productImageId);
             if (productImage == null)
             {
                 throw new ArgumentException("Product image not found");
@@ -106,25 +106,60 @@ namespace CoolCBackEnd.Repository
             return await _context.ProductImages.FindAsync(ProductId);
         }
 
-        public async Task<ProductImage> UpdatedAsync(int id, ProductImage productImageModel)
+        public async Task RemoveAsync(ProductImage productImage)
         {
-            var existingProductImage = await _context.ProductImages.FindAsync(id);
+            _context.ProductImages.Remove(productImage);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ProductImage> UpdateAsync(int productImageId, IFormFile newImageFile)
+        {
+            var existingProductImage = await _context.ProductImages.FindAsync(productImageId);
             if (existingProductImage == null)
             {
                 throw new ArgumentException("Product image not found");
             }
 
-            existingProductImage.ImagePath = productImageModel.ImagePath;
+            var product = await _context.Products.FindAsync(existingProductImage.ProductId);
+            if (product == null)
+            {
+                throw new ArgumentException("Product not found");
+            }
+
+            var brand = await _context.Brands.FindAsync(product.BrandId);
+            if (brand == null)
+            {
+                throw new ArgumentException("Brand not found");
+            }
+
+            var existingImagePath = Path.Combine(@"D:\gram\development\Complete\CoolC\CoolCBackend\wwwroot", existingProductImage.ImagePath);
+            if (File.Exists(existingImagePath))
+            {
+                File.Delete(existingImagePath);
+            }
+
+            var folderName = $"{brand.Name}_{product.Name}";
+            var productFolder = Path.Combine(@"D:\gram\development\Complete\CoolC\CoolCBackend\wwwroot\images", folderName);
+            if (!Directory.Exists(productFolder))
+            {
+                Directory.CreateDirectory(productFolder);
+            }
+
+            var fileName = $"{folderName}{Path.GetExtension(newImageFile.FileName)}";
+            var newImagePath = Path.Combine(productFolder, fileName);
+
+            using (var stream = new FileStream(newImagePath, FileMode.Create))
+            {
+                await newImageFile.CopyToAsync(stream);
+            }
+
+            existingProductImage.ImagePath = Path.Combine("images", folderName, fileName);
+
             _context.ProductImages.Update(existingProductImage);
             await _context.SaveChangesAsync();
 
             return existingProductImage;
         }
 
-        public async Task RemoveAsync(ProductImage productImage)
-        {
-            _context.ProductImages.Remove(productImage);
-            await _context.SaveChangesAsync();
-        }
     }
 }

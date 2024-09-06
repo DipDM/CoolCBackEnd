@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iQIPcOVhxKo6A9gqWH0GOzGNsjeR3phLOhqwWgb+lGA=",
+  "Hash": "zzLkrNW7K7LhATb3onanwgmldkvMYJYT2NA3wRxnrbw=",
   "Source": "CoolCBackEnd",
   "BasePath": "_content/CoolCBackEnd",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\string_dsff\\string_dsff_1.jfif",
+      "SourceId": "CoolCBackEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\",
+      "BasePath": "_content/CoolCBackEnd",
+      "RelativePath": "images/string_dsff/string_dsff_1.jfif",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\string_dsff\\string_dsff_1.jfif"
+    },
     {
       "Identity": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\string_Honey Singh\\string_Honey Singh_1.png",
       "SourceId": "CoolCBackEnd",
