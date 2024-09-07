@@ -10,6 +10,7 @@ namespace CoolCBackEnd.Interfaces
         Task<ProductImage> DeleteAsync(int id);
         Task<List<ProductImage>> GetAllAsync();
         Task<ProductImage> GetByIdAsync(int id);
+        Task<IEnumerable<ProductImage>> GetByProductIdAsync(int productId);
         Task<ProductImage> UpdateAsync(int productImageId,IFormFile newImageFile);
         Task RemoveAsync(ProductImage productImage);
 

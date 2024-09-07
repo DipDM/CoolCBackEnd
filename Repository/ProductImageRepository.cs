@@ -106,6 +106,11 @@ namespace CoolCBackEnd.Repository
             return await _context.ProductImages.FindAsync(ProductId);
         }
 
+        public async Task<IEnumerable<ProductImage>> GetByProductIdAsync(int productId)
+        {
+            return await _context.ProductImages.Where(pi => pi.ProductId == productId).ToListAsync();
+        }
+
         public async Task RemoveAsync(ProductImage productImage)
         {
             _context.ProductImages.Remove(productImage);

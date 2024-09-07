@@ -65,6 +65,17 @@ namespace CoolCBackEnd.Controllers
             return Ok(image);
         }
 
+        [HttpGet("product/{productId:int}")]
+        public async Task<IActionResult> GetImagesByProductId(int productId)
+        {
+            var images = await _productImageRepository.GetByProductIdAsync(productId);
+            if(images == null)
+            {
+                return NotFound();
+            }
+            return Ok(images);
+        }
+
         [HttpDelete("{productImageId:int}")]
         public async Task<IActionResult> DeleteImage(int productImageId)
         {
