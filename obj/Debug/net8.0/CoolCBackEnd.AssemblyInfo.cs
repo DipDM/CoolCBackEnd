@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoolCBackEnd")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd5d3899a8ed73b1de7e7ead3b07e9e184665f11")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28f9e449dcef43d995c676e07e9c1fb86a037820")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoolCBackEnd")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoolCBackEnd")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -15,7 +15,6 @@ namespace CoolCBackEnd.Data
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
             : base(options)
         {
-
         }
 
         public DbSet<ProductImage> ProductImages { get; set; }
@@ -29,8 +28,11 @@ namespace CoolCBackEnd.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ShippingDetail> ShippingDetails { get; set; }
-        public DbSet<ProductSize> ProductSizes {get; set;}
-        public DbSet<Size> Sizes {get; set;}
+        public DbSet<ProductSize> ProductSizes { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<CouponUser> CouponUsers { get; set; }
+        public DbSet<CouponOrder> CouponOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -73,21 +75,7 @@ namespace CoolCBackEnd.Data
                 .HasForeignKey(sd => sd.OrderId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Configure relationships
-            modelBuilder.Entity<Cart>().HasKey(c => c.CartId);
-            modelBuilder.Entity<CartItem>().HasKey(ci => ci.CartItemId);
-            modelBuilder.Entity<CartItem>()
-                .HasOne(ci => ci.Cart)
-                .WithMany(c => c.CartItems)
-                .HasForeignKey(ci => ci.CartId);
-
-            modelBuilder.Entity<Order>().HasKey(o => o.OrderId);
-            modelBuilder.Entity<OrderItem>().HasKey(oi => oi.OrderItemId);
-            modelBuilder.Entity<OrderItem>()
-                .HasOne(oi => oi.Order)
-                .WithMany(o => o.OrderItems)
-                .HasForeignKey(oi => oi.OrderId);
-
+            // Configure relationships for Product, Category, Brand
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Brand)
                 .WithMany(b => b.Products)
@@ -99,23 +87,84 @@ namespace CoolCBackEnd.Data
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Coupon Table Configuration
+            modelBuilder.Entity<Coupon>(entity =>
+            {
+                entity.HasKey(e => e.CouponId);
+
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                // Relationships
+                entity.HasMany(c => c.CouponUsers)
+                      .WithOne(cu => cu.Coupon)
+                      .HasForeignKey(cu => cu.CouponId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(c => c.CouponOrders)
+                      .WithOne(co => co.Coupon)
+                      .HasForeignKey(co => co.CouponId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // CouponUsers Table Configuration
+            modelBuilder.Entity<CouponUser>(entity =>
+            {
+                entity.HasKey(e => e.CouponUserId);
+
+                entity.HasOne(cu => cu.Coupon)
+                    .WithMany(c => c.CouponUsers)
+                    .HasForeignKey(cu => cu.CouponId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.OrderId).IsRequired();
+                entity.Property(e => e.RedeemedDate).IsRequired();
+
+                // Optional: Add indexes for performance
+                entity.HasIndex(cu => cu.UserId);
+                entity.HasIndex(cu => cu.OrderId);
+            });
+
+            // CouponOrders Table Configuration
+            modelBuilder.Entity<CouponOrder>(entity =>
+            {
+                entity.HasKey(e => e.CouponOrderId);
+
+                entity.HasOne(co => co.Coupon)
+                    .WithMany(c => c.CouponOrders)
+                    .HasForeignKey(co => co.CouponId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.Property(e => e.OrderId).IsRequired();
+                entity.Property(e => e.DiscountAmount)
+                      .HasColumnType("decimal(18,2)")
+                      .IsRequired();
+
+                // Optional: Add indexes for performance
+                entity.HasIndex(co => co.OrderId);
+            });
+
             // Seeding roles with GUID Ids
             List<IdentityRole<Guid>> roles = new List<IdentityRole<Guid>>
+        {
+            new IdentityRole<Guid>
             {
-                new IdentityRole<Guid>
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                },
-                new IdentityRole<Guid>
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "User",
-                    NormalizedName = "USER"
-                }
-            };
+                Id = Guid.NewGuid(),
+                Name = "Admin",
+                NormalizedName = "ADMIN"
+            },
+            new IdentityRole<Guid>
+            {
+                Id = Guid.NewGuid(),
+                Name = "User",
+                NormalizedName = "USER"
+            }
+        };
             modelBuilder.Entity<IdentityRole<Guid>>().HasData(roles);
         }
     }
+
 }

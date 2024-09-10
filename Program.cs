@@ -49,6 +49,9 @@ builder.Services.AddScoped<IShippingDetailRepository, ShippingDetailRepository>(
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<ISizeRepository,SizeRepository>();
 builder.Services.AddScoped<IProductSizeRepository,ProductSizeRepository>();
+builder.Services.AddScoped<ICouponRepository,CouponRepository>();
+builder.Services.AddScoped<ICouponOrderRepository,CouponOrderRepository>();
+builder.Services.AddScoped<ICouponUserRepository,CouponUserRepository>();
 
 
 builder.Services.AddAuthentication(options =>
@@ -140,7 +143,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo API V1");
-        c.RoutePrefix = "swagger"; // Set Swagger UI at the app's root
+        c.RoutePrefix = "swagger";
     });
 }
 else
@@ -154,8 +157,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // If you have authentication
-app.UseAuthorization();  // If you have authorization configured
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors("AllowSpecificOrigin");
 

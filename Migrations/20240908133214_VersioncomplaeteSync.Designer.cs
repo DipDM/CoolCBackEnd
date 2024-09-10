@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoolCBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240903081910_UpdateProductSize")]
-    partial class UpdateProductSize
+    [Migration("20240908133214_VersioncomplaeteSync")]
+    partial class VersioncomplaeteSync
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -459,13 +459,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("12f364dc-09dd-4423-9a48-427861df1224"),
+                            Id = new Guid("6991d80c-8710-43a0-aabd-9ad5b9b2bc8e"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("da6cc494-6495-468a-9349-f849132ab3a9"),
+                            Id = new Guid("f5ea6f17-781f-4f98-9ff8-2fe231021c75"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -685,7 +685,7 @@ namespace CoolCBackEnd.Migrations
             modelBuilder.Entity("CoolCBackEnd.Models.ProductSize", b =>
                 {
                     b.HasOne("CoolCBackEnd.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductSizes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -798,6 +798,8 @@ namespace CoolCBackEnd.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("ProductImages");
+
+                    b.Navigation("ProductSizes");
                 });
 
             modelBuilder.Entity("CoolCBackEnd.Models.Size", b =>

@@ -174,6 +174,115 @@ namespace CoolCBackEnd.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("CoolCBackEnd.Models.Coupon", b =>
+                {
+                    b.Property<int>("CouponId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponId"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DiscountType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("MaxDiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MinOrderAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UsageCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsageLimit")
+                        .HasColumnType("int");
+
+                    b.HasKey("CouponId");
+
+                    b.ToTable("Coupons");
+                });
+
+            modelBuilder.Entity("CoolCBackEnd.Models.CouponOrder", b =>
+                {
+                    b.Property<int>("CouponOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponOrderId"));
+
+                    b.Property<int>("CouponId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CouponOrderId");
+
+                    b.HasIndex("CouponId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("CouponOrders");
+                });
+
+            modelBuilder.Entity("CoolCBackEnd.Models.CouponUser", b =>
+                {
+                    b.Property<int>("CouponUserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponUserId"));
+
+                    b.Property<int>("CouponId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("RedeemedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CouponUserId");
+
+                    b.HasIndex("CouponId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CouponUsers");
+                });
+
             modelBuilder.Entity("CoolCBackEnd.Models.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
@@ -456,13 +565,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("93789fcf-4de0-4cc4-9d09-5907b338ad16"),
+                            Id = new Guid("53c1960f-ab65-4d06-8dcb-a8ec184a32a2"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("3ebb8550-f945-41c3-8d11-8811c74d918d"),
+                            Id = new Guid("1378b6d9-c816-445b-8d32-ebd3a31572e2"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -625,6 +734,28 @@ namespace CoolCBackEnd.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CoolCBackEnd.Models.CouponOrder", b =>
+                {
+                    b.HasOne("CoolCBackEnd.Models.Coupon", "Coupon")
+                        .WithMany("CouponOrders")
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coupon");
+                });
+
+            modelBuilder.Entity("CoolCBackEnd.Models.CouponUser", b =>
+                {
+                    b.HasOne("CoolCBackEnd.Models.Coupon", "Coupon")
+                        .WithMany("CouponUsers")
+                        .HasForeignKey("CouponId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coupon");
+                });
+
             modelBuilder.Entity("CoolCBackEnd.Models.Order", b =>
                 {
                     b.HasOne("CoolCBackEnd.Models.User", "User")
@@ -682,7 +813,7 @@ namespace CoolCBackEnd.Migrations
             modelBuilder.Entity("CoolCBackEnd.Models.ProductSize", b =>
                 {
                     b.HasOne("CoolCBackEnd.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("ProductSizes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -783,6 +914,13 @@ namespace CoolCBackEnd.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("CoolCBackEnd.Models.Coupon", b =>
+                {
+                    b.Navigation("CouponOrders");
+
+                    b.Navigation("CouponUsers");
+                });
+
             modelBuilder.Entity("CoolCBackEnd.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -795,6 +933,8 @@ namespace CoolCBackEnd.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("ProductImages");
+
+                    b.Navigation("ProductSizes");
                 });
 
             modelBuilder.Entity("CoolCBackEnd.Models.Size", b =>

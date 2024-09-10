@@ -1,16 +1,48 @@
 {
   "Files": [
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\string_Honey Singh\\string_Honey Singh_1.png",
-      "PackagePath": "staticwebassets\\images\\string_Honey Singh\\string_Honey Singh_1.png"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_1.jpeg",
+      "PackagePath": "staticwebassets\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_1.jpeg"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\string_Honey Singh\\string_Honey Singh_2.png",
-      "PackagePath": "staticwebassets\\images\\string_Honey Singh\\string_Honey Singh_2.png"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_2.jpg",
+      "PackagePath": "staticwebassets\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_2.jpg"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\string_dsff\\string_dsff_2.jpg",
-      "PackagePath": "staticwebassets\\images\\string_dsff\\string_dsff_2.jpg"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_3.png",
+      "PackagePath": "staticwebassets\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_3.png"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_4.png",
+      "PackagePath": "staticwebassets\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_4.png"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_1.jpg",
+      "PackagePath": "staticwebassets\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_1.jpg"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_10.jpg",
+      "PackagePath": "staticwebassets\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_10.jpg"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_13.jpg",
+      "PackagePath": "staticwebassets\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_13.jpg"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_6.jpg",
+      "PackagePath": "staticwebassets\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_6.jpg"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_7.jpg",
+      "PackagePath": "staticwebassets\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_7.jpg"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_8.jpg",
+      "PackagePath": "staticwebassets\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_8.jpg"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_9.jpg",
+      "PackagePath": "staticwebassets\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_9.jpg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CoolCBackEnd.Microsoft.AspNetCore.StaticWebAssets.props",

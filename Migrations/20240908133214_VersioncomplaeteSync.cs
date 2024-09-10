@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CoolCBackEnd.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateProductMo : Migration
+    public partial class VersioncomplaeteSync : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,6 +78,19 @@ namespace CoolCBackEnd.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sizes",
+                columns: table => new
+                {
+                    SizeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SizeName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sizes", x => x.SizeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -406,13 +419,39 @@ namespace CoolCBackEnd.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductSizes",
+                columns: table => new
+                {
+                    ProductSizeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    SizeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductSizes", x => x.ProductSizeId);
+                    table.ForeignKey(
+                        name: "FK_ProductSizes_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductSizes_Sizes_SizeId",
+                        column: x => x.SizeId,
+                        principalTable: "Sizes",
+                        principalColumn: "SizeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("1dc5b270-1f70-4ec3-abc5-8a2d536724e0"), null, "User", "USER" },
-                    { new Guid("84e84656-d359-4371-ab1c-80fd2a06aad8"), null, "Admin", "ADMIN" }
+                    { new Guid("6991d80c-8710-43a0-aabd-9ad5b9b2bc8e"), null, "Admin", "ADMIN" },
+                    { new Guid("f5ea6f17-781f-4f98-9ff8-2fe231021c75"), null, "User", "USER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -515,6 +554,16 @@ namespace CoolCBackEnd.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductSizes_ProductId",
+                table: "ProductSizes",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductSizes_SizeId",
+                table: "ProductSizes",
+                column: "SizeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShippingDetails_AddressId",
                 table: "ShippingDetails",
                 column: "AddressId");
@@ -556,6 +605,9 @@ namespace CoolCBackEnd.Migrations
                 name: "ProductImages");
 
             migrationBuilder.DropTable(
+                name: "ProductSizes");
+
+            migrationBuilder.DropTable(
                 name: "ShippingDetails");
 
             migrationBuilder.DropTable(
@@ -566,6 +618,9 @@ namespace CoolCBackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Sizes");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
