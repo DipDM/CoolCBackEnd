@@ -27,7 +27,7 @@ namespace CoolCBackEnd.Repository
         public async Task<Cart> DeleteAsync(int CartId)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(c => c.CartId == CartId);
-            if(cart == null)
+            if (cart == null)
             {
                 return null;
             }
@@ -40,6 +40,13 @@ namespace CoolCBackEnd.Repository
         public async Task<List<Cart>> GetAllAsync()
         {
             return await _context.Carts.ToListAsync();
+        }
+
+        public async Task<Cart?> GetCartByUserIdAsync(Guid userId)
+        {
+            return await _context.Carts
+                .Include(c => c.CartItems) // If you want to include cart items
+                .FirstOrDefaultAsync(c => c.UserId == userId);
         }
 
         public async Task<Cart> GetByIdAsync(int CartId)

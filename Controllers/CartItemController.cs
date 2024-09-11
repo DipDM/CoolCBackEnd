@@ -25,7 +25,8 @@ namespace CoolCBackEnd.Controllers
         public async Task<ActionResult<IEnumerable<CartItemDto>>> GetAllCartItems()
         {
             var cartItems = await _cartItemRepository.GetAllAsync();
-            return Ok(cartItems.Select(ci => ci.ToCartItemDto()));
+            var cartItemDtos = cartItems.Select(CartItemMappers.ToCartItemDto).ToList();
+            return Ok(cartItemDtos);
         }
 
         [HttpGet("{CartItemId}")]
@@ -38,17 +39,27 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CartItemDto>> CreateCartItem(CreateCartItemDto cartItemDto)
+        public async Task<ActionResult<CartItemDto>> CreateCartItem([FromBody] CreateCartItemDto cartItemDto)
         {
-            var cartItem = cartItemDto.ToCartItemFromCreate();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var cartItem = CartItemMappers.ToCartItemFromCreate(cartItemDto);
             var createdCartItem = await _cartItemRepository.CreateAsync(cartItem);
 
             return CreatedAtAction(nameof(GetCartItemById), new { CartItemId = createdCartItem.CartItemId }, createdCartItem.ToCartItemDto());
         }
 
         [HttpPut("{CartItemId}")]
-        public async Task<ActionResult<CartItemDto>> UpdateCartItem(int CartItemId, UpdateCartItemDto cartItemDto)
+        public async Task<ActionResult<CartItemDto>> UpdateCartItem(int CartItemId, [FromBody] UpdateCartItemDto cartItemDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var updatedCartItem = await _cartItemRepository.UpdateAsync(CartItemId, cartItemDto);
             if (updatedCartItem == null) return NotFound();
 

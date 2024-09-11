@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoolCBackEnd.Dtos.Cart;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -36,15 +37,28 @@ namespace CoolCBackEnd.Controllers
             }
             return Ok(cart);
         }
+        [HttpGet("user/{userId:guid}")]
+        public async Task<IActionResult> GetCartByUserId(Guid userId)
+        {
+            var cart = await _cartRepo.GetCartByUserIdAsync(userId);
+            if (cart == null) return NotFound();
+            return Ok(cart);
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] Cart cartModel)
+        public async Task<IActionResult> Create([FromBody] CreateCartRequestDto cartDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var createdCart = await _cartRepo.CreateAsync(cartModel);
+            var cart = new Cart
+            {
+                UserId = cartDto.UserId
+            };
+
+            var createdCart = await _cartRepo.CreateAsync(cart);
             return CreatedAtAction(nameof(GetById), new { CartId = createdCart.CartId }, createdCart);
         }
 

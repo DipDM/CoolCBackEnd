@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Billing Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 80%; margin: auto; }
+        .header { text-align: center; }
+        .details { margin-top: 20px; }
+        .details td { padding: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="header">Billing Report</h1>
+        <table class="details">
+            <tr>
+                <td><strong>Order ID:</strong></td>
+                <td>{{ OrderId }}</td>
+            </tr>
+            <tr>
+                <td><strong>Payment Date:</strong></td>
+                <td>{{ PaymentDate }}</td>
+            </tr>
+            <tr>
+                <td><strong>Payment Method:</strong></td>
+                <td>{{ PaymentMethod }}</td>
+            </tr>
+            <tr>
+                <td><strong>Transaction ID:</strong></td>
+                <td>{{ TransactionId }}</td>
+            </tr>
+            <tr>
+                <td><strong>Total Amount:</strong></td>
+                <td>{{ TotalAmount }}</td>
+            </tr>
+            <tr>
+                <td><strong>Amount Paid:</strong></td>
+                <td>{{ AmountPaid }}</td>
+            </tr>
+            <tr>
+                <td><strong>Payment Status:</strong></td>
+                <td>{{ PaymentStatus }}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

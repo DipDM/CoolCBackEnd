@@ -150,3 +150,17 @@ D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\Microsoft.AspNe
 D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.barcodes.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.bouncy-castle-connector.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.forms.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.io.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.kernel.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.layout.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.pdfa.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.pdfua.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.sign.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.styledxmlparser.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.svg.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.commons.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.html2pdf.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\Microsoft.DotNet.PlatformAbstractions.dll

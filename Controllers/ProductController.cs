@@ -55,7 +55,7 @@ namespace CoolCBackEnd.Controllers
                 ProductSizes = p.ProductSizes.Select(f => new ProductSizeDto
                 {
                     ProductSizeId = f.ProductSizeId,
-                    SizeId = f.SizeId 
+                    SizeId = f.SizeId
                 }).ToList()
             }).ToList();
             var totalItems = await _productRepo.CountAsync(query);
@@ -69,7 +69,6 @@ namespace CoolCBackEnd.Controllers
             };
             return Ok(response);
         }
-
         [HttpGet("{productId:int}")]
         public async Task<IActionResult> GetById([FromRoute] int productId)
         {
@@ -78,9 +77,12 @@ namespace CoolCBackEnd.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Fetch the product including related ProductImages
+            // Fetch the product including related ProductImages, ProductSizes, Brand, and Category
             var product = await _context.Products
                 .Include(p => p.ProductImages)
+                .Include(p => p.ProductSizes)
+                .Include(p => p.Brand)       // Include the Brand entity
+                .Include(p => p.Category)    // Include the Category entity
                 .FirstOrDefaultAsync(p => p.ProductId == productId);
 
             if (product == null)
@@ -88,23 +90,26 @@ namespace CoolCBackEnd.Controllers
                 return NotFound();
             }
 
-            // Map the product to ProductDto including ProductImages
+            // Map the product to ProductDto including ProductImages, ProductSizes, Brand, and Category
             var productDto = new ProductDto
             {
                 ProductId = product.ProductId,
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ProductImages = product.ProductImages.Select(pi => new ProductImageDto
+                BrandId = product.BrandId,          // Ensure BrandId is populated
+                CategoryId = product.CategoryId,    // Ensure CategoryId is populated
+                ProductImages = product.ProductImages?.Select(pi => new ProductImageDto
                 {
                     ProductImageId = pi.ProductImageId,
                     ImagePath = pi.ImagePath
-                }).ToList(),
-                ProductSizes = product.ProductSizes.Select(ps => new ProductSizeDto
+                }).ToList() ?? new List<ProductImageDto>(),
+
+                ProductSizes = product.ProductSizes?.Select(ps => new ProductSizeDto
                 {
                     ProductSizeId = ps.ProductSizeId,
                     SizeId = ps.SizeId
-                }).ToList()
+                }).ToList() ?? new List<ProductSizeDto>(),
             };
 
             return Ok(productDto);
@@ -128,7 +133,7 @@ namespace CoolCBackEnd.Controllers
                 BrandId = productDto.BrandId
             };
             // Example for debugging
-Console.WriteLine($"BrandId: {productDto.BrandId}");
+            Console.WriteLine($"BrandId: {productDto.BrandId}");
 
             await _productRepo.CreatedAsync(productModel);
             return CreatedAtAction(nameof(GetById), new { ProductId = productModel.ProductId }, productModel.ToProductDto());

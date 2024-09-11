@@ -33,6 +33,7 @@ namespace CoolCBackEnd.Data
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<CouponUser> CouponUsers { get; set; }
         public DbSet<CouponOrder> CouponOrders { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,6 +68,14 @@ namespace CoolCBackEnd.Data
                 .WithMany(u => u.Orders)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => e.OrderId);
+            entity.Property(e => e.OrderStatus).IsRequired();
+            entity.Property(e => e.PaymentStatus).IsRequired();
+            entity.Property(e => e.TotalAmount).IsRequired();
+            entity.Property(e => e.UserId).IsRequired();
+        });
 
             // Avoid multiple cascade paths by setting DeleteBehavior to NoAction for ShippingDetail
             modelBuilder.Entity<ShippingDetail>()
@@ -146,6 +155,21 @@ namespace CoolCBackEnd.Data
                 // Optional: Add indexes for performance
                 entity.HasIndex(co => co.OrderId);
             });
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Order)
+                .WithMany(o => o.Payments)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade); //Cascade delete if an order is removed
+            
+            modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.HasKey(e => e.PaymentId);
+            entity.Property(e => e.PaymentMethod).IsRequired();
+            entity.Property(e => e.TransactionId).IsRequired();
+            entity.Property(e => e.PaymentDate).IsRequired();
+            entity.Property(e => e.AmountPaid).IsRequired();
+        });
 
             // Seeding roles with GUID Ids
             List<IdentityRole<Guid>> roles = new List<IdentityRole<Guid>>

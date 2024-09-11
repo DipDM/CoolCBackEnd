@@ -339,6 +339,47 @@ namespace CoolCBackEnd.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("CoolCBackEnd.Models.Payment", b =>
+                {
+                    b.Property<Guid>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("AmountPaid")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrderId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("OrderId1")
+                        .IsUnique()
+                        .HasFilter("[OrderId1] IS NOT NULL");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("CoolCBackEnd.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -565,13 +606,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("53c1960f-ab65-4d06-8dcb-a8ec184a32a2"),
+                            Id = new Guid("abc6f0c2-7600-4714-8219-b14887364bc4"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("1378b6d9-c816-445b-8d32-ebd3a31572e2"),
+                            Id = new Guid("2a65db2d-0da5-424f-97bc-b36155409fbc"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -782,6 +823,21 @@ namespace CoolCBackEnd.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("CoolCBackEnd.Models.Payment", b =>
+                {
+                    b.HasOne("CoolCBackEnd.Models.Order", "Order")
+                        .WithMany("Payments")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoolCBackEnd.Models.Order", null)
+                        .WithOne("Payment")
+                        .HasForeignKey("CoolCBackEnd.Models.Payment", "OrderId1");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("CoolCBackEnd.Models.Product", b =>
                 {
                     b.HasOne("CoolCBackEnd.Models.Brand", "Brand")
@@ -924,6 +980,11 @@ namespace CoolCBackEnd.Migrations
             modelBuilder.Entity("CoolCBackEnd.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
+
+                    b.Navigation("Payment")
+                        .IsRequired();
+
+                    b.Navigation("Payments");
 
                     b.Navigation("ShippingDetails");
                 });
