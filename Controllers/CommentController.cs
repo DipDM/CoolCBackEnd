@@ -4,10 +4,13 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
+using CoolCBackEnd.Data;
 using CoolCBackEnd.Dtos.Comment;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Mappers;
+using CoolCBackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoolCBackEnd.Controllers
 {
@@ -18,10 +21,12 @@ namespace CoolCBackEnd.Controllers
         private readonly ICommentRepository _commentRepo;
         private readonly IProductRepository _productRepo;
 
-        public CommentController(ICommentRepository commentRepo, IProductRepository productRepo)
+        private readonly ApplicationDBContext _context;
+        public CommentController(ICommentRepository commentRepo, IProductRepository productRepo, ApplicationDBContext context)
         {
             _commentRepo = commentRepo;
             _productRepo = productRepo;
+            _context = context;
         }
 
         [HttpGet]
@@ -44,32 +49,49 @@ namespace CoolCBackEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var comment = await _commentRepo.GetByIdAsync(CommentId);
+            var comment = await _context.Comments
+        .Where(c => c.CommentId == CommentId)
+        .Select(c => new CommentDto
+        {
+            CommentId = c.CommentId,
+            UserId = c.UserId,
+            CommentText = c.CommentText,
+            Rating = c.Rating // Now this will be of type int?
+        })
+        .FirstOrDefaultAsync();
+
+            Console.WriteLine($"Rating Value: {comment?.Rating}");
 
             if (comment == null)
             {
                 return NotFound();
             }
 
-            return Ok(comment.ToCommentDto());
+            return Ok(comment);
         }
 
         [HttpPost("{productId:int}")]
-        public async Task<IActionResult> Create([FromRoute] int productId, [FromForm] CreateCommentRequestDto commentDto)
+        public async Task<IActionResult> Create(int productId,[FromBody] CreateCommentRequestDto commentDto)
         {
-            if (!ModelState.IsValid)
+            // Validate UserId
+            var userExists = await _context.Users.AnyAsync(u => u.Id == commentDto.UserId);
+            if (!userExists)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid UserId. User does not exist.");
             }
 
-            if (!await _productRepo.ProductExists(productId))
+            // Create the Comment
+            var comment = new Comment
             {
-                return NotFound("The Model Does not Exisst U ");
-            }
+                ProductId = productId,
+                UserId = commentDto.UserId,
+                CommentText = commentDto.CommentText,
+                Rating = commentDto.Rating,
+                // set other fields
+            };
 
-            var commentModel = commentDto.ToCommentFromCreate(productId);
-            await _commentRepo.CreatedAsync(commentModel);
-            return CreatedAtAction(nameof(GetById), new { CommentId = commentModel.CommentId }, commentModel.ToCommentDto());
+            await _commentRepo.CreatedAsync(comment);
+            return Ok("Comment created successfully");
         }
 
         [HttpPut]
@@ -87,12 +109,12 @@ namespace CoolCBackEnd.Controllers
                 return NotFound();
             }
 
-            if(!string.IsNullOrEmpty(commentupdateDto.CommentText))
+            if (!string.IsNullOrEmpty(commentupdateDto.CommentText))
             {
                 existingComment.CommentText = commentupdateDto.CommentText;
             }
 
-            if(commentupdateDto.Rating.HasValue)
+            if (commentupdateDto.Rating.HasValue)
             {
                 existingComment.Rating = commentupdateDto.Rating.Value;
             }

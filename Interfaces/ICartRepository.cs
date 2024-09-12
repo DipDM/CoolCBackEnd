@@ -13,5 +13,8 @@ namespace CoolCBackEnd.Interfaces
         Task<List<Cart>> GetAllAsync();
         Task<Cart> GetByIdAsync(int CartId);
         Task<Cart> GetCartByUserIdAsync(Guid userId);
+        Task<Cart> UpdateAsync(int cartId,Cart updatedCart);
+        Task<Cart> UpdateCartTotalAmountAsync(int CartId);
+        Task<List<CartItem>> GetCartItemsByCartIdAsync(int cartId);
     }
 }

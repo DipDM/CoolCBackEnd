@@ -9,7 +9,8 @@ namespace CoolCBackEnd.Dtos.Order
     {
         public string OrderStatus { get; set; }
         public string PaymentStatus { get; set; }
-        public int TotalAmount { get; set; }
+        public decimal TotalAmount { get; set; }
+        public int CartId { get; set; }
         public Guid UserId {get; set;}
     }
 }

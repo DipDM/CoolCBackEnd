@@ -46,6 +46,34 @@ namespace CoolCBackEnd.Controllers
         }
 
 
+        [HttpPut("{CartId:int}")]
+        public async Task<IActionResult> Update(int CartId, [FromBody] UpdateCartRequestDto cartDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var cartToUpdate = await _cartRepo.GetByIdAsync(CartId);
+            if (cartToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            // Update cart fields here
+            cartToUpdate.TotalAmount = cartDto.TotalAmount;  // Updating TotalAmount
+
+            var updatedCart = await _cartRepo.UpdateAsync(CartId, cartToUpdate);
+
+            if (updatedCart == null)
+            {
+                return BadRequest("Unable to update cart.");
+            }
+
+            return Ok(updatedCart);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCartRequestDto cartDto)
         {
@@ -55,7 +83,8 @@ namespace CoolCBackEnd.Controllers
             }
             var cart = new Cart
             {
-                UserId = cartDto.UserId
+                UserId = cartDto.UserId,
+                TotalAmount = 0
             };
 
             var createdCart = await _cartRepo.CreateAsync(cart);

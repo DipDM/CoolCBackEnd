@@ -21,6 +21,12 @@ namespace CoolCBackEnd.Repository
 
         public async Task<Address> CreateAsync(Address address)
         {
+            var userExists = await _context.Users.AnyAsync(u => u.Id ==address.UserId);
+
+            if(!userExists)
+            {
+                throw new Exception("Invalid userId, THe user does not exist");
+            }
             _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
             return address;

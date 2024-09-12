@@ -11,5 +11,6 @@ namespace CoolCBackEnd.Dtos.Cart
     {
         public int CartId {get; set;}
         public Guid UserId {get; set;}
+        public decimal TotalAmount {get; set;}
     }
 }

@@ -4,6 +4,7 @@ using CoolCBackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoolCBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240912072017_Addtotalamountincart")]
+    partial class Addtotalamountincart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -614,13 +617,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1a92b3d3-aac6-4881-aa61-441027b7a7ba"),
+                            Id = new Guid("30351ed1-0c44-4231-b294-d54acca77310"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("d0831051-d895-4e7a-a8c2-ddbb4584c0a5"),
+                            Id = new Guid("08d524ad-f929-4881-90f1-4aba873a7070"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -760,7 +763,7 @@ namespace CoolCBackEnd.Migrations
                         .IsRequired();
 
                     b.HasOne("CoolCBackEnd.Models.Product", "Product")
-                        .WithMany("CartItems")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -814,7 +817,7 @@ namespace CoolCBackEnd.Migrations
                     b.HasOne("CoolCBackEnd.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -1003,8 +1006,6 @@ namespace CoolCBackEnd.Migrations
 
             modelBuilder.Entity("CoolCBackEnd.Models.Product", b =>
                 {
-                    b.Navigation("CartItems");
-
                     b.Navigation("Comments");
 
                     b.Navigation("ProductImages");

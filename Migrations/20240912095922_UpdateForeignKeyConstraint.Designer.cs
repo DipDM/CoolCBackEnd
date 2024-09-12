@@ -4,6 +4,7 @@ using CoolCBackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoolCBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240912095922_UpdateForeignKeyConstraint")]
+    partial class UpdateForeignKeyConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -614,13 +617,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1a92b3d3-aac6-4881-aa61-441027b7a7ba"),
+                            Id = new Guid("d8ae475b-a6eb-4989-98d9-8c9560bd15d4"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("d0831051-d895-4e7a-a8c2-ddbb4584c0a5"),
+                            Id = new Guid("90d3d0cb-7cd7-4f1d-be1e-ce17604de061"),
                             Name = "User",
                             NormalizedName = "USER"
                         });

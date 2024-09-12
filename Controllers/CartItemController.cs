@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoolCBackEnd.Data;
 using CoolCBackEnd.Dtos.CartItem;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Mappers;
 using CoolCBackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoolCBackEnd.Controllers
 {
@@ -15,10 +17,12 @@ namespace CoolCBackEnd.Controllers
     public class CartItemController : ControllerBase
     {
         private readonly ICartItemRepository _cartItemRepository;
+        private readonly ApplicationDBContext _context;  // Inject ApplicationDBContext
 
-        public CartItemController(ICartItemRepository cartItemRepository)
+        public CartItemController(ICartItemRepository cartItemRepository, ApplicationDBContext context)
         {
             _cartItemRepository = cartItemRepository;
+            _context = context;
         }
 
         [HttpGet]
@@ -47,10 +51,29 @@ namespace CoolCBackEnd.Controllers
             }
 
             var cartItem = CartItemMappers.ToCartItemFromCreate(cartItemDto);
+
+            // Automatically fetch and set the price in the repository
             var createdCartItem = await _cartItemRepository.CreateAsync(cartItem);
 
             return CreatedAtAction(nameof(GetCartItemById), new { CartItemId = createdCartItem.CartItemId }, createdCartItem.ToCartItemDto());
         }
+        [HttpPost("add-or-update")]
+        public async Task<ActionResult<CartItemDto>> AddOrUpdateCartItem([FromBody] CreateCartItemDto cartItemDto)
+        {
+            var updatedCartItem = await _cartItemRepository.AddOrUpdateCartItemAsync(
+                cartItemDto.CartId,
+                cartItemDto.ProductId,
+                cartItemDto.Quantity
+            );
+
+            if (updatedCartItem == null)
+            {
+                return BadRequest("Product not found.");
+            }
+
+            return Ok(updatedCartItem.ToCartItemDto());
+        }
+
 
         [HttpPut("{CartItemId}")]
         public async Task<ActionResult<CartItemDto>> UpdateCartItem(int CartItemId, [FromBody] UpdateCartItemDto cartItemDto)
@@ -60,11 +83,14 @@ namespace CoolCBackEnd.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Automatically update the price based on the product price and quantity
             var updatedCartItem = await _cartItemRepository.UpdateAsync(CartItemId, cartItemDto);
             if (updatedCartItem == null) return NotFound();
 
             return Ok(updatedCartItem.ToCartItemDto());
         }
+
+
 
         [HttpDelete("{CartItemId}")]
         public async Task<IActionResult> DeleteCartItem(int CartItemId)
@@ -74,5 +100,18 @@ namespace CoolCBackEnd.Controllers
 
             return Ok(deletedCartItem);
         }
+
+        [HttpGet("test-product-price/{productId}")]
+        public async Task<IActionResult> TestProductPrice(int productId)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { product.Price });
+        }
+
     }
 }

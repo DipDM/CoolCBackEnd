@@ -10,5 +10,6 @@ namespace CoolCBackEnd.Dtos.CartItem
         public int Quantity { get; set; }
         public int CartId { get; set; } 
         public int ProductId { get; set; }
+        
     }
 }

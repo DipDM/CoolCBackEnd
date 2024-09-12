@@ -8,9 +8,9 @@ namespace CoolCBackEnd.Dtos.OrderItem
     public class OrderItemDto
     {
         public int OrderItemId {get; set;}
-        public int? ProductId {get; set;}
-        public Guid? OrderId {get; set;}
+        public int ProductId {get; set;}
+        public Guid OrderId {get; set;}
         public int Quantity {get; set;}
-        public int Price {get; set;} 
+        public decimal Price {get; set;} 
     }
 }

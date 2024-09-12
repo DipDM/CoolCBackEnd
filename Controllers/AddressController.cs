@@ -25,9 +25,24 @@ namespace CoolCBackEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateAddressDto createDto)
         {
-            var address = createDto.ToCreateFromAddress();
-            var createdAddress = await _addressRepository.CreateAsync(address);
-            return CreatedAtAction(nameof(GetById), new { addressId = createdAddress.AddressId }, createdAddress.ToAddressDto());
+           try{
+            var address = new Address
+            {
+                UserId = createDto.UserId,
+                AddressLine1 = createDto.AddressLine1,
+                AddressLine2 = createDto.AddressLine2,
+                City = createDto.City,
+                State = createDto.State,
+                Country = createDto.Country,
+                PostalCode = createDto.PostalCode
+
+            };
+
+            await _addressRepository.CreateAsync(address);
+            return Ok("Address created successfully");
+           }catch(Exception ex){
+            return StatusCode(500, $"dsaasd : {ex.Message}");
+           }
         }
 
         [HttpGet("{addressId}")]

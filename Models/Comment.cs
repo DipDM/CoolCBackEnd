@@ -12,8 +12,8 @@ namespace CoolCBackEnd.Models
         public int CommentId {get; set;}
         public string CommentText {get; set;} = string.Empty;
         public int? Rating {get; set;}
-        public int? ProductId {get; set;}
-        public Product? Product {get; set;}
+        public int ProductId {get; set;}
+        public Product Product {get; set;}
         public Guid UserId {get; set;}
         public User User {get; set;}
     }

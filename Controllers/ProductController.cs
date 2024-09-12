@@ -161,18 +161,10 @@ namespace CoolCBackEnd.Controllers
             {
                 existingProduct.Description = updateDto.Description;
             }
-            if (updateDto.Price.HasValue)
-            {
-                existingProduct.Price = updateDto.Price.Value;
-            }
-            if (updateDto.CategoryId.HasValue)
-            {
-                existingProduct.CategoryId = updateDto.CategoryId.Value;
-            }
-            if (updateDto.BrandId.HasValue)
-            {
-                existingProduct.BrandId = updateDto.BrandId.Value;
-            }
+            
+                existingProduct.Price = updateDto.Price;
+                existingProduct.CategoryId = updateDto.CategoryId;
+                existingProduct.BrandId = updateDto.BrandId;
 
             await _productRepo.UpdatedAsync(ProductId, updateDto);
             return Ok(existingProduct.ToProductDto());

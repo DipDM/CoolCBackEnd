@@ -49,7 +49,7 @@ namespace CoolCBackEnd.Data
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Cart>()
                 .HasOne(c => c.User)
@@ -67,7 +67,7 @@ namespace CoolCBackEnd.Data
                 .HasOne(c => c.User)
                 .WithMany(u => u.Orders)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Order>(entity =>
         {
             entity.HasKey(e => e.OrderId);

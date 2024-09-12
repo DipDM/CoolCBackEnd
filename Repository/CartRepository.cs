@@ -54,5 +54,44 @@ namespace CoolCBackEnd.Repository
             return await _context.Carts.FirstOrDefaultAsync(c => c.CartId == CartId);
         }
 
+        public async Task<Cart> UpdateAsync(int cartId, Cart updatedCart)
+        {
+            var cart = await _context.Carts.FindAsync(cartId);
+            if (cart == null) return null;
+
+            cart.TotalAmount = updatedCart.TotalAmount;
+            // Update other fields as needed
+
+            _context.Carts.Update(cart);
+            await _context.SaveChangesAsync();
+
+            return cart;
+        }
+
+        public async Task<Cart> UpdateCartTotalAmountAsync(int cartId)
+        {
+            // Fetch the cart with all related cart items
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)  // Include related CartItems
+                .FirstOrDefaultAsync(c => c.CartId == cartId);
+
+            if (cart == null) return null;
+
+            // Calculate the total amount by summing the prices of all cart items
+            cart.TotalAmount = cart.CartItems.Sum(ci => ci.Price);
+
+            _context.Carts.Update(cart);
+            await _context.SaveChangesAsync();
+
+            return cart;
+        }
+        public async Task<List<CartItem>> GetCartItemsByCartIdAsync(int cartId)
+        {
+            return await _context.CartItems
+                .Where(ci => ci.CartId == cartId)
+                .ToListAsync();
+        }
+
+
     }
 }

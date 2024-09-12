@@ -17,7 +17,8 @@ namespace CoolCBackEnd.Mappers
                 CartItemId = cartItemModel.CartItemId,
                 CartId = cartItemModel.CartId,
                 ProductId = cartItemModel.ProductId,
-                Quantity = cartItemModel.Quantity
+                Quantity = cartItemModel.Quantity,
+                Price = cartItemModel.Price
             };
         }
 
