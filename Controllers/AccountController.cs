@@ -36,8 +36,7 @@ namespace CoolCBackEnd.Controllers
 
             if (user == null)
             {
-                return Unauthorized("Invalid USername!");
-
+                return Unauthorized("Invalid Username!");
             }
 
             var result = await _signingManager.CheckPasswordSignInAsync(user, userloginDto.Password, false);
@@ -47,15 +46,20 @@ namespace CoolCBackEnd.Controllers
                 return Unauthorized("User not found/Password incorrect");
             }
 
+            // Fetch user roles
+            var roles = await _userManager.GetRolesAsync(user);
+
             return Ok(
                 new NewUserDto
                 {
                     UserName = user.UserName,
                     Email = user.Email,
-                    Token = _tokenService.CreateToken(user)
+                    Token = _tokenService.CreateToken(user, roles.ToList()), // Pass roles here
+                    roles = roles.ToList() // Include roles in the response
                 }
             );
         }
+
         [HttpPost("register-user")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userregisterDto)
         {
@@ -79,12 +83,16 @@ namespace CoolCBackEnd.Controllers
 
                     if (roleResult.Succeeded)
                     {
+                        // Fetch roles for the newly registered user
+                        var roles = await _userManager.GetRolesAsync(appUser);
+
                         return Ok(
                             new NewUserDto
                             {
                                 UserName = appUser.UserName,
                                 Email = appUser.Email,
-                                Token = _tokenService.CreateToken(appUser)
+                                Token = _tokenService.CreateToken(appUser, roles.ToList()), // Pass roles here
+                                roles = roles.ToList() // Include roles in the response
                             }
                         );
                     }
@@ -103,6 +111,7 @@ namespace CoolCBackEnd.Controllers
                 return StatusCode(500, e);
             }
         }
+
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] UserRegisterDto userRegisterDto)
         {
@@ -130,7 +139,16 @@ namespace CoolCBackEnd.Controllers
                 return BadRequest(roleResult.Errors);
             }
 
-            return Ok(new { Message = "Admin registered successfully." });
+            // Fetch roles for the newly registered admin
+            var roles = await _userManager.GetRolesAsync(appUser);
+
+            return Ok(new NewUserDto
+            {
+                UserName = appUser.UserName,
+                Email = appUser.Email,
+                Token = _tokenService.CreateToken(appUser, roles.ToList()), // Pass roles here
+                roles = roles.ToList() // Include roles in the response
+            });
         }
 
         [HttpPost("assign-role")]

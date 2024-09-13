@@ -21,15 +21,18 @@ namespace DClothesAPI.Service
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
         }
 
-        public string CreateToken(User user)
+        public string CreateToken(User user, IList<string> roles)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
+                new Claim(JwtRegisteredClaimNames.GivenName, user.UserName),
             };
 
-            var creds = new SigningCredentials(_key,SecurityAlgorithms.HmacSha512Signature);
+            // Add role claims
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

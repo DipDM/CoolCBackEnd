@@ -9,6 +9,6 @@ namespace CoolCBackEnd.Interfaces
 {
     public interface ITokenService
     {
-        string CreateToken(User user);
+        public string CreateToken(User user, IList<string> roles);
     }
 }
