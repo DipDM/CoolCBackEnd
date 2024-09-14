@@ -54,6 +54,7 @@ namespace CoolCBackEnd.Controllers
                 {
                     UserName = user.UserName,
                     Email = user.Email,
+                    UserId = user.Id,
                     Token = _tokenService.CreateToken(user, roles.ToList()), // Pass roles here
                     roles = roles.ToList() // Include roles in the response
                 }
@@ -91,6 +92,7 @@ namespace CoolCBackEnd.Controllers
                             {
                                 UserName = appUser.UserName,
                                 Email = appUser.Email,
+                                UserId = appUser.Id,
                                 Token = _tokenService.CreateToken(appUser, roles.ToList()), // Pass roles here
                                 roles = roles.ToList() // Include roles in the response
                             }

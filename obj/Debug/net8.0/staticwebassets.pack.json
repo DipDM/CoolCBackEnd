@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Adidas_jjknn\\Adidas_jjknn.jpg",
+      "PackagePath": "staticwebassets\\images\\Adidas_jjknn\\Adidas_jjknn.jpg"
+    },
+    {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_1.jpeg",
       "PackagePath": "staticwebassets\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_1.jpeg"
     },
@@ -15,6 +19,10 @@
     {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_4.png",
       "PackagePath": "staticwebassets\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_4.png"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Puma_Summer Shirt\\Puma_Summer Shirt_1.jpg",
+      "PackagePath": "staticwebassets\\images\\Puma_Summer Shirt\\Puma_Summer Shirt_1.jpg"
     },
     {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_1.jpg",

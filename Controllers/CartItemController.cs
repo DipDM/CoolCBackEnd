@@ -17,12 +17,14 @@ namespace CoolCBackEnd.Controllers
     public class CartItemController : ControllerBase
     {
         private readonly ICartItemRepository _cartItemRepository;
+        private readonly ICartRepository _cartRepo;
         private readonly ApplicationDBContext _context;  // Inject ApplicationDBContext
 
-        public CartItemController(ICartItemRepository cartItemRepository, ApplicationDBContext context)
+        public CartItemController(ICartItemRepository cartItemRepository, ApplicationDBContext context, ICartRepository cartRepo)
         {
             _cartItemRepository = cartItemRepository;
             _context = context;
+            _cartRepo = cartRepo;
         }
 
         [HttpGet]
@@ -60,19 +62,47 @@ namespace CoolCBackEnd.Controllers
         [HttpPost("add-or-update")]
         public async Task<ActionResult<CartItemDto>> AddOrUpdateCartItem([FromBody] CreateCartItemDto cartItemDto)
         {
-            var updatedCartItem = await _cartItemRepository.AddOrUpdateCartItemAsync(
-                cartItemDto.CartId,
-                cartItemDto.ProductId,
-                cartItemDto.Quantity
-            );
-
-            if (updatedCartItem == null)
+            try
             {
-                return BadRequest("Product not found.");
-            }
+                // Step 1: Add or Update the CartItem
+                var updatedCartItem = await _cartItemRepository.AddOrUpdateCartItemAsync(
+                    cartItemDto.CartId,
+                    cartItemDto.ProductId,
+                    cartItemDto.Quantity
+                );
 
-            return Ok(updatedCartItem.ToCartItemDto());
+                if (updatedCartItem == null)
+                {
+                    return BadRequest("Product not found.");
+                }
+
+                // Step 2: Update the Cart's TotalAmount by summing the prices of all items in the cart
+                await _cartRepo.UpdateCartTotalAmountAsync(cartItemDto.CartId);
+
+                // Step 3: Fetch the updated Cart and its items
+                var updatedCart = await _cartRepo.GetCartWithItemsAsync(cartItemDto.CartId);
+
+                if (updatedCart == null)
+                {
+                    return NotFound("Cart not found.");
+                }
+
+                // Step 4: Return the updated cart and its items as a DTO
+                return Ok(new
+                {
+                    CartId = updatedCart.CartId,
+                    TotalAmount = updatedCart.TotalAmount,
+                    Items = updatedCart.CartItems.Select(ci => ci.ToCartItemDto())
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in add-or-update method: {ex.Message}");
+                return StatusCode(500, new { Error = ex.Message });
+            }
         }
+
+
 
 
         [HttpPut("{CartItemId}")]

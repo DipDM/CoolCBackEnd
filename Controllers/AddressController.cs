@@ -25,24 +25,27 @@ namespace CoolCBackEnd.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateAddressDto createDto)
         {
-           try{
-            var address = new Address
+            try
             {
-                UserId = createDto.UserId,
-                AddressLine1 = createDto.AddressLine1,
-                AddressLine2 = createDto.AddressLine2,
-                City = createDto.City,
-                State = createDto.State,
-                Country = createDto.Country,
-                PostalCode = createDto.PostalCode
+                var address = new Address
+                {
+                    UserId = createDto.UserId,
+                    AddressLine1 = createDto.AddressLine1,
+                    AddressLine2 = createDto.AddressLine2,
+                    City = createDto.City,
+                    State = createDto.State,
+                    Country = createDto.Country,
+                    PostalCode = createDto.PostalCode
 
-            };
+                };
 
-            await _addressRepository.CreateAsync(address);
-            return Ok("Address created successfully");
-           }catch(Exception ex){
-            return StatusCode(500, $"dsaasd : {ex.Message}");
-           }
+                await _addressRepository.CreateAsync(address);
+                return Ok("Address created successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"dsaasd : {ex.Message}");
+            }
         }
 
         [HttpGet("{addressId}")]
@@ -53,6 +56,31 @@ namespace CoolCBackEnd.Controllers
             return Ok(address.ToAddressDto());
         }
 
+        [HttpGet("get-by-user/{userId}")]
+        public async Task<IActionResult> GetAddressByUserId(Guid userId)
+        {
+            try
+            {
+                // Step 1: Fetch the address by userId
+                var address = await _addressRepository.GetAddressByUserIdAsync(userId);
+
+                // Step 2: Check if the address exists
+                if (address == null)
+                {
+                    return NotFound(new { Message = "Address not found for the specified user." });
+                }
+
+                // Step 3: Return the address information
+                return Ok(address);
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors and log the exception if necessary
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -61,7 +89,7 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPut("{addressId}")]
-        public async Task<IActionResult> Update(int addressId, [FromForm] UpdateAddressDto updateDto)
+        public async Task<IActionResult> Update(int addressId, UpdateAddressDto updateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -69,32 +97,32 @@ namespace CoolCBackEnd.Controllers
             }
 
             var existingAddress = await _addressRepository.GetByIdAsync(addressId);
-            if(existingAddress == null)
+            if (existingAddress == null)
             {
                 return NotFound();
             }
 
-            if(!string.IsNullOrEmpty(updateDto.AddressLine1))
+            if (!string.IsNullOrEmpty(updateDto.AddressLine1))
             {
                 existingAddress.AddressLine1 = updateDto.AddressLine1;
             }
-            if(!string.IsNullOrEmpty(updateDto.AddressLine2))
+            if (!string.IsNullOrEmpty(updateDto.AddressLine2))
             {
                 existingAddress.AddressLine2 = updateDto.AddressLine2;
             }
-            if(!string.IsNullOrEmpty(updateDto.City))
+            if (!string.IsNullOrEmpty(updateDto.City))
             {
                 existingAddress.City = updateDto.City;
             }
-            if(!string.IsNullOrEmpty(updateDto.State))
+            if (!string.IsNullOrEmpty(updateDto.State))
             {
                 existingAddress.State = updateDto.State;
             }
-            if(!string.IsNullOrEmpty(updateDto.Country))
+            if (!string.IsNullOrEmpty(updateDto.Country))
             {
                 existingAddress.Country = updateDto.Country;
             }
-            if(!string.IsNullOrEmpty(updateDto.PostalCode))
+            if (!string.IsNullOrEmpty(updateDto.PostalCode))
             {
                 existingAddress.PostalCode = updateDto.PostalCode;
             }

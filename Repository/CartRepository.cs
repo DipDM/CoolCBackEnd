@@ -68,23 +68,49 @@ namespace CoolCBackEnd.Repository
             return cart;
         }
 
-        public async Task<Cart> UpdateCartTotalAmountAsync(int cartId)
+        public async Task UpdateCartTotalAmountAsync(int cartId)
         {
-            // Fetch the cart with all related cart items
-            var cart = await _context.Carts
-                .Include(c => c.CartItems)  // Include related CartItems
-                .FirstOrDefaultAsync(c => c.CartId == cartId);
+            try
+            {
+                // Fetch all cart items associated with this cartId
+                var cartItems = await _context.CartItems
+                    .Where(ci => ci.CartId == cartId)
+                    .ToListAsync();
 
-            if (cart == null) return null;
+                if (!cartItems.Any())
+                {
+                    Console.WriteLine($"No cart items found for CartId: {cartId}");
+                    return ;
+                }
 
-            // Calculate the total amount by summing the prices of all cart items
-            cart.TotalAmount = cart.CartItems.Sum(ci => ci.Price);
+                // Calculate the total amount by summing up the prices of all items
+                var totalAmount = cartItems.Sum(ci => ci.Price);
 
-            _context.Carts.Update(cart);
-            await _context.SaveChangesAsync();
+                // Fetch the cart to update its TotalAmount
+                var cart = await _context.Carts.FirstOrDefaultAsync(c => c.CartId == cartId);
 
-            return cart;
+                if (cart == null)
+                {
+                    Console.WriteLine($"Cart not found for CartId: {cartId}");
+                    return;
+                }
+
+                // Update the cart's total amount
+                cart.TotalAmount = totalAmount;
+                _context.Carts.Update(cart);
+
+                // Save changes
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine($"CartId: {cartId} updated with TotalAmount: {totalAmount}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating TotalAmount for CartId: {cartId}. Error: {ex.Message}");
+                throw;
+            }
         }
+
         public async Task<List<CartItem>> GetCartItemsByCartIdAsync(int cartId)
         {
             return await _context.CartItems
@@ -92,6 +118,12 @@ namespace CoolCBackEnd.Repository
                 .ToListAsync();
         }
 
+        public async Task<Cart> GetCartWithItemsAsync(int cartId)
+        {
+            return await _context.Carts
+                .Include(c => c.CartItems)
+                .FirstOrDefaultAsync(c => c.CartId == cartId);
+        }
 
     }
 }

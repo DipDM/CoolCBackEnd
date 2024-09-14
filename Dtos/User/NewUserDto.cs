@@ -11,5 +11,6 @@ namespace CoolCBackEnd.Dtos.User
         public string Email { get; set; }
         public string Token {get; set;}
         public IList<string> roles {get; set;}
+        public Guid UserId {get; set;}
     }
 }

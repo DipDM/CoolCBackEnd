@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ePaHsjSyumTnhSY+JKLi0fCWErWyJ8NFIk1OSRK1NsI=",
+  "Hash": "SRsDTZdKRdTFWTrA0srOd+8jaP9hkYiU1z/GRJIkzsc=",
   "Source": "CoolCBackEnd",
   "BasePath": "_content/CoolCBackEnd",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Adidas_jjknn\\Adidas_jjknn.jpg",
+      "SourceId": "CoolCBackEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\",
+      "BasePath": "_content/CoolCBackEnd",
+      "RelativePath": "images/Adidas_jjknn/Adidas_jjknn.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Adidas_jjknn\\Adidas_jjknn.jpg"
+    },
     {
       "Identity": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_1.jpeg",
       "SourceId": "CoolCBackEnd",
@@ -91,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\H&M_Expresso Cotton Gordon\\H&M_Expresso Cotton Gordon_4.png"
+    },
+    {
+      "Identity": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Puma_Summer Shirt\\Puma_Summer Shirt_1.jpg",
+      "SourceId": "CoolCBackEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\",
+      "BasePath": "_content/CoolCBackEnd",
+      "RelativePath": "images/Puma_Summer Shirt/Puma_Summer Shirt_1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\Puma_Summer Shirt\\Puma_Summer Shirt_1.jpg"
     },
     {
       "Identity": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Zara_Swimsuit with plastic wraps\\Zara_Swimsuit with plastic wraps_1.jpg",

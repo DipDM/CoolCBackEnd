@@ -16,5 +16,6 @@ namespace CoolCBackEnd.Interfaces
         Task<CartItem> UpdateAsync(int cartItemId, UpdateCartItemDto cartItemDto);
         Task<CartItem> AddOrUpdateCartItemAsync(int cartId, int productId, int quantity);
         
+
     }
 }

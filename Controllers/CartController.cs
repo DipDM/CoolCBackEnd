@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoolCBackEnd.Data;
 using CoolCBackEnd.Dtos.Cart;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoolCBackEnd.Controllers
 {
@@ -14,9 +16,11 @@ namespace CoolCBackEnd.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartRepository _cartRepo;
-        public CartController(ICartRepository cartRepo)
+        private readonly ApplicationDBContext _context;
+        public CartController(ICartRepository cartRepo, ApplicationDBContext context)
         {
             _cartRepo = cartRepo;
+            _context = context;
         }
 
         [HttpGet]
@@ -90,6 +94,45 @@ namespace CoolCBackEnd.Controllers
             var createdCart = await _cartRepo.CreateAsync(cart);
             return CreatedAtAction(nameof(GetById), new { CartId = createdCart.CartId }, createdCart);
         }
+        [HttpPost("check-or-create-cart")]
+        public async Task<IActionResult> CheckOrCreateCart([FromBody] UserCartDto dto)
+        {
+            try
+            {
+                var userId = dto.UserId;
+
+                // Step 1: Fetch the cart for the user by userId
+                var cart = await _context.Carts
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
+
+                // Step 2: If no cart exists, create a new cart
+                if (cart == null)
+                {
+                    cart = new Cart
+                    {
+                        UserId = userId,
+                        TotalAmount = 0 // Initialize total to 0 as no items yet
+                    };
+                    _context.Carts.Add(cart);
+                    await _context.SaveChangesAsync();  // Save to generate CartId for further use
+                }
+
+                // Step 3: Return the cart details (CartId, UserId, TotalAmount)
+                return Ok(new
+                {
+                    Message = cart == null ? "New cart created" : "Cart already exists",
+                    CartId = cart.CartId,
+                    UserId = cart.UserId,
+                    TotalAmount = cart.TotalAmount
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+
 
         [HttpDelete("{CartId:int}")]
         public async Task<IActionResult> Delete(int CartId)

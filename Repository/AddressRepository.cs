@@ -21,9 +21,9 @@ namespace CoolCBackEnd.Repository
 
         public async Task<Address> CreateAsync(Address address)
         {
-            var userExists = await _context.Users.AnyAsync(u => u.Id ==address.UserId);
+            var userExists = await _context.Users.AnyAsync(u => u.Id == address.UserId);
 
-            if(!userExists)
+            if (!userExists)
             {
                 throw new Exception("Invalid userId, THe user does not exist");
             }
@@ -66,6 +66,13 @@ namespace CoolCBackEnd.Repository
             _context.Addresses.Remove(address);
             await _context.SaveChangesAsync();
             return address;
+        }
+
+        public async Task<Address?> GetAddressByUserIdAsync(Guid userId)
+        {
+            // Assuming a 1-to-1 relationship between User and Address
+            return await _context.Addresses
+            .FirstOrDefaultAsync( c => c.UserId == userId);
         }
     }
 
