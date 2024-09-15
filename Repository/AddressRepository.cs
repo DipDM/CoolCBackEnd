@@ -68,13 +68,13 @@ namespace CoolCBackEnd.Repository
             return address;
         }
 
-        public async Task<Address?> GetAddressByUserIdAsync(Guid userId)
+        public async Task<List<Address>> GetAddressesByUserIdAsync(Guid userId)
         {
-            // Assuming a 1-to-1 relationship between User and Address
-            return await _context.Addresses
-            .FirstOrDefaultAsync( c => c.UserId == userId);
+            var addresses = await _context.Addresses
+                .Where(a => a.UserId == userId)
+                .ToListAsync();
+            // Fetch all addresses related to the userId
+            return addresses;
         }
     }
-
-
 }

@@ -13,7 +13,7 @@ namespace CoolCBackEnd.Interfaces
     Task<IEnumerable<Address>> GetAllAsync();
     Task<Address> UpdateAsync(int addressId, Address address);
     Task<Address> DeleteAsync(int addressId);
-    Task<Address?> GetAddressByUserIdAsync(Guid userId);
+    Task<List<Address>> GetAddressesByUserIdAsync(Guid userId);
 
 }
 

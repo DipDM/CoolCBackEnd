@@ -1,27 +1,59 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CoolCBackEnd.Data;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
 using CoolCBackEnd.Repository;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using DClothesAPI.Service;
-
+using CoolCBackEnd.Service;
+using System.Net.Mail;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Add configuration
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+// Register SMTP settings
+var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+
+// Register services
+builder.Services.AddMemoryCache();
+
+builder.Services.AddSingleton(new SmtpClient
+{
+    Host = smtpSettings.Host,
+    Port = smtpSettings.Port,
+    EnableSsl = smtpSettings.EnableSsl,
+    Credentials = new NetworkCredential(smtpSettings.Username, smtpSettings.Password)
+});
+
+// Register EmailService with a single instance of SmtpClient
+builder.Services.AddScoped<IEmailService>(sp =>
+{
+    var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+    if (smtpSettings == null)
+    {
+        throw new InvalidOperationException("SMTP settings are not configured correctly.");
+    }
+    var smtpClient = sp.GetRequiredService<SmtpClient>();
+    return new EmailService(smtpClient, smtpSettings.FromAddress);
+});
+
+
+
+
+// Register DbContext
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("siteDBConnection")));
 
+// Register Identity
 builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 {
     options.Password.RequireDigit = true;
@@ -29,10 +61,9 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
     options.Password.RequiredLength = 8;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
-}).AddEntityFrameworkStores<ApplicationDBContext>()
+})
+.AddEntityFrameworkStores<ApplicationDBContext>()
 .AddDefaultTokenProviders();
-
-
 
 // Register repositories and services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -46,14 +77,24 @@ builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IShippingDetailRepository, ShippingDetailRepository>();
-builder.Services.AddScoped<ITokenService,TokenService>();
-builder.Services.AddScoped<ISizeRepository,SizeRepository>();
-builder.Services.AddScoped<IProductSizeRepository,ProductSizeRepository>();
-builder.Services.AddScoped<ICouponRepository,CouponRepository>();
-builder.Services.AddScoped<ICouponOrderRepository,CouponOrderRepository>();
-builder.Services.AddScoped<ICouponUserRepository,CouponUserRepository>();
-
-
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ISizeRepository, SizeRepository>();
+builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+builder.Services.AddScoped<ICouponOrderRepository, CouponOrderRepository>();
+builder.Services.AddScoped<ICouponUserRepository, CouponUserRepository>();
+builder.Services.AddScoped<IOtpCacheService, OtpCacheService>();
+builder.Services.AddScoped<IEmailService>(sp =>
+{
+    var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+    if (smtpSettings == null)
+    {
+        throw new InvalidOperationException("SMTP settings are not configured correctly.");
+    }
+    var smtpClient = sp.GetRequiredService<SmtpClient>();
+    return new EmailService(smtpClient, smtpSettings.FromAddress);
+});
+// Configure Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,6 +113,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configure MVC and Swagger
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
@@ -109,8 +151,8 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
             new string[]{}
@@ -118,11 +160,7 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-builder.Services.AddHttpClient();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -133,6 +171,9 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 

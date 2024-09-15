@@ -23,7 +23,7 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateAddressDto createDto)
+        public async Task<IActionResult> Create(CreateAddressDto createDto)
         {
             try
             {
@@ -57,21 +57,21 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpGet("get-by-user/{userId}")]
-        public async Task<IActionResult> GetAddressByUserId(Guid userId)
+        public async Task<IActionResult> GetAddressesByUserId(Guid userId)
         {
             try
             {
-                // Step 1: Fetch the address by userId
-                var address = await _addressRepository.GetAddressByUserIdAsync(userId);
+                // Step 1: Fetch all addresses by userId
+                var addresses = await _addressRepository.GetAddressesByUserIdAsync(userId);
 
-                // Step 2: Check if the address exists
-                if (address == null)
+                // Step 2: Check if addresses exist for the given userId
+                if (addresses == null || addresses.Count == 0)
                 {
-                    return NotFound(new { Message = "Address not found for the specified user." });
+                    return NotFound(new { Message = "No addresses found for the specified user." });
                 }
 
-                // Step 3: Return the address information
-                return Ok(address);
+                // Step 3: Return the list of addresses
+                return Ok(addresses);
             }
             catch (Exception ex)
             {
@@ -79,6 +79,7 @@ namespace CoolCBackEnd.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
 
 
         [HttpGet]

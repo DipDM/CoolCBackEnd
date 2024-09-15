@@ -9,7 +9,7 @@ using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DClothesAPI.Service
+namespace CoolCBackEnd.Service
 {
     public class TokenService : ITokenService
     {
