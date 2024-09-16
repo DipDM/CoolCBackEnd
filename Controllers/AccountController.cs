@@ -42,18 +42,23 @@ namespace CoolCBackEnd.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == userloginDto.UserName.ToLower());
+            // Convert email to lowercase
+            var email = userloginDto.Email.ToLower();
+
+            // Find the user by email instead of UserName
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == email);
 
             if (user == null)
             {
-                return Unauthorized("Invalid Username!");
+                return Unauthorized("Invalid email!");
             }
 
+            // Check password
             var result = await _signingManager.CheckPasswordSignInAsync(user, userloginDto.Password, false);
 
             if (!result.Succeeded)
             {
-                return Unauthorized("User not found/Password incorrect");
+                return Unauthorized("Password incorrect");
             }
 
             // Fetch user roles
@@ -70,6 +75,7 @@ namespace CoolCBackEnd.Controllers
                 }
             );
         }
+
 
         [HttpPost("register-user")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDto userRegisterDto)
@@ -98,7 +104,8 @@ namespace CoolCBackEnd.Controllers
                 var appUser = new User
                 {
                     UserName = userRegisterDto.Username,
-                    Email = userRegisterDto.Email
+                    Email = userRegisterDto.Email,
+                    CreationTime = DateTime.UtcNow
                 };
 
                 var createdUser = await _userManager.CreateAsync(appUser, userRegisterDto.Password);
@@ -219,10 +226,18 @@ namespace CoolCBackEnd.Controllers
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return BadRequest("Invalid user.");
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
-            return result.Succeeded ? Ok("Email verified successfully.") : BadRequest("Email verification failed.");
+            if (result.Succeeded)
+            {
+                return Ok("Email confirmed successfully.");
+            }
+
+            return BadRequest("Error confirming email.");
         }
 
 
@@ -230,41 +245,94 @@ namespace CoolCBackEnd.Controllers
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] UserRegisterDto userRegisterDto)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // Check if the username or email already exists
+                var existingUserByUsername = await _userManager.FindByNameAsync(userRegisterDto.Username);
+                if (existingUserByUsername != null)
+                {
+                    return BadRequest("Username already exists.");
+                }
+
+                var existingUserByEmail = await _userManager.FindByEmailAsync(userRegisterDto.Email);
+                if (existingUserByEmail != null)
+                {
+                    return BadRequest("Email address already exists.");
+                }
+
+                // Create the user
+                var appUser = new User
+                {
+                    UserName = userRegisterDto.Username,
+                    Email = userRegisterDto.Email
+                };
+
+                var createdUser = await _userManager.CreateAsync(appUser, userRegisterDto.Password);
+
+                if (createdUser.Succeeded)
+                {
+                    // Assign the "Admin" role to this user
+                    var roleResult = await _userManager.AddToRoleAsync(appUser, "Admin");
+
+                    if (roleResult.Succeeded)
+                    {
+                        // Generate OTP and Verification Link
+                        var otp = OtpHelper.GenerateOtp();  // Method to generate OTP
+                        var verificationToken = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
+                        var verificationLink = Url.Action("ConfirmEmail", "Auth", new { userId = appUser.Id, token = verificationToken }, protocol: Request.Scheme);
+
+                        _logger.LogInformation("Generated token: {Token}", verificationToken);
+                        _logger.LogInformation("Request scheme: {Scheme}", Request?.Scheme);
+                        _logger.LogInformation("Generated verification link: {Link}", verificationLink);
+
+                        // Send email with OTP and Verification Link
+                        var emailBody = $@"
+                                    <p>Thank you for registering as an admin. Please verify your email by either entering the OTP below or clicking the verification link:</p>
+                <p><strong>OTP: {otp}</strong></p>
+                <p>or <a href='{verificationLink}'>Click here to verify your email</a></p>";
+
+                        await _emailService.SendEmailAsync(appUser.Email, "Email Verification", emailBody);  // Using the EmailService to send email
+                        _logger.LogInformation("Verification email sent successfully to {Email}", appUser.Email);
+
+                        // Store OTP in database or cache (for this example, we use a hypothetical CacheService)
+                        _otpCacheService.StoreOtp(appUser.Email, otp, TimeSpan.FromMinutes(30));
+
+                        // Fetch roles for the newly registered admin
+                        var roles = await _userManager.GetRolesAsync(appUser);
+
+                        return Ok(
+                            new NewUserDto
+                            {
+                                UserName = appUser.UserName,
+                                Email = appUser.Email,
+                                UserId = appUser.Id,
+                                Token = _tokenService.CreateToken(appUser, roles.ToList()), // Pass roles here
+                                roles = roles.ToList(), // Include roles in the response
+                                Message = "Admin registered successfully. Please check your email for verification."
+                            }
+                        );
+                    }
+                    else
+                    {
+                        return StatusCode(500, roleResult.Errors);
+                    }
+                }
+                else
+                {
+                    return StatusCode(500, createdUser.Errors);
+                }
             }
-
-            var appUser = new User
+            catch (Exception e)
             {
-                UserName = userRegisterDto.Username,
-                Email = userRegisterDto.Email
-            };
-
-            var result = await _userManager.CreateAsync(appUser, userRegisterDto.Password);
-            if (!result.Succeeded)
-            {
-                return BadRequest(result.Errors);
+                return StatusCode(500, e.Message);
             }
-
-            // Assign the "Admin" role to this user
-            var roleResult = await _userManager.AddToRoleAsync(appUser, "Admin");
-            if (!roleResult.Succeeded)
-            {
-                return BadRequest(roleResult.Errors);
-            }
-
-            // Fetch roles for the newly registered admin
-            var roles = await _userManager.GetRolesAsync(appUser);
-
-            return Ok(new NewUserDto
-            {
-                UserName = appUser.UserName,
-                Email = appUser.Email,
-                Token = _tokenService.CreateToken(appUser, roles.ToList()), // Pass roles here
-                roles = roles.ToList() // Include roles in the response
-            });
         }
+
 
         [HttpPost("assign-role")]
         [Authorize(Roles = "Admin")]  // Only accessible by admins
@@ -335,11 +403,16 @@ namespace CoolCBackEnd.Controllers
 
 
         [HttpPost("send-reset-otp")]
-        public async Task<IActionResult> SendResetOtp([FromBody] string email)
+        public async Task<IActionResult> SendResetOtp([FromBody] SendResetOtpRequestDto requestDto)
         {
             try
             {
-                var user = await _userManager.FindByEmailAsync(email);
+                if (requestDto == null || string.IsNullOrWhiteSpace(requestDto.Email))
+                {
+                    return BadRequest("Email is required.");
+                }
+
+                var user = await _userManager.FindByEmailAsync(requestDto.Email);
                 if (user == null)
                 {
                     return NotFound("User not found.");
@@ -349,7 +422,7 @@ namespace CoolCBackEnd.Controllers
                 var otp = OtpHelper.GenerateOtp();  // Implement this method to generate OTP
 
                 // Store OTP in cache or database (for verification later)
-                _otpCacheService.StoreOtp(email, otp, TimeSpan.FromMinutes(10));  // 10 minutes validity
+                _otpCacheService.StoreOtp(requestDto.Email, otp, TimeSpan.FromMinutes(10));  // 10 minutes validity
 
                 // Send the OTP via email
                 await _emailService.SendEmailAsync(user.Email, "Password Reset Request", $"Use this OTP to reset your password: {otp}");
@@ -361,6 +434,7 @@ namespace CoolCBackEnd.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
 
 
         [HttpPost("reset-password")]

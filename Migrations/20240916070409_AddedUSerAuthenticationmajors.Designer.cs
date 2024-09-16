@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoolCBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240912072017_Addtotalamountincart")]
-    partial class Addtotalamountincart
+    [Migration("20240916070409_AddedUSerAuthenticationmajors")]
+    partial class AddedUSerAuthenticationmajors
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,7 +165,7 @@ namespace CoolCBackEnd.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Rating")
@@ -330,13 +330,13 @@ namespace CoolCBackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
 
-                    b.Property<Guid?>("OrderId")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -534,6 +534,9 @@ namespace CoolCBackEnd.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -617,13 +620,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("30351ed1-0c44-4231-b294-d54acca77310"),
+                            Id = new Guid("e23de211-f1c3-41c2-bb52-c614e5335c19"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("08d524ad-f929-4881-90f1-4aba873a7070"),
+                            Id = new Guid("7eff756d-d774-4430-8331-4558c2a8d690"),
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -763,7 +766,7 @@ namespace CoolCBackEnd.Migrations
                         .IsRequired();
 
                     b.HasOne("CoolCBackEnd.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("CartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -777,12 +780,14 @@ namespace CoolCBackEnd.Migrations
                 {
                     b.HasOne("CoolCBackEnd.Models.Product", "Product")
                         .WithMany("Comments")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CoolCBackEnd.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -817,7 +822,7 @@ namespace CoolCBackEnd.Migrations
                     b.HasOne("CoolCBackEnd.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -827,11 +832,15 @@ namespace CoolCBackEnd.Migrations
                 {
                     b.HasOne("CoolCBackEnd.Models.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CoolCBackEnd.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
 
@@ -1006,6 +1015,8 @@ namespace CoolCBackEnd.Migrations
 
             modelBuilder.Entity("CoolCBackEnd.Models.Product", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("Comments");
 
                     b.Navigation("ProductImages");

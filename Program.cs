@@ -84,6 +84,8 @@ builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 builder.Services.AddScoped<ICouponOrderRepository, CouponOrderRepository>();
 builder.Services.AddScoped<ICouponUserRepository, CouponUserRepository>();
 builder.Services.AddScoped<IOtpCacheService, OtpCacheService>();
+builder.Services.AddHostedService<UserCleanupService>();
+builder.Services.AddScoped<IUserCleanupService,UserCleanupService>();
 builder.Services.AddScoped<IEmailService>(sp =>
 {
     var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();

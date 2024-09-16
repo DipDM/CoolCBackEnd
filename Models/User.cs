@@ -14,5 +14,6 @@ namespace CoolCBackEnd.Models
         public ICollection<Address> Addresses {get; set;}
         public ICollection<Cart> Carts {get; set;}
         public ICollection<Order> Orders {get; set;}
+        public DateTime CreationTime {get; set;}
     }
 }
