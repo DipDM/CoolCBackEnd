@@ -21,27 +21,36 @@ namespace CoolCBackEnd.Controllers
         {
             _brandRepo = brandRepo;
         }
+
+        // Updated GetAll method to return brands with their products
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var brand = await _brandRepo.GetAllAsync();
-            return Ok(brand);
-        }
-
-        [HttpGet("{BrandId:int}")]
-        public async Task<IActionResult> GetById(int BrandId)
-        {
-            var brand = await _brandRepo.GetByIdAsync(BrandId);
-
-            if (brand == null)
+            var brands = await _brandRepo.GetBrandsWithProductsAsync();  // Fetching brands with products
+            if (brands == null || !brands.Any())
             {
                 return NotFound();
             }
-            return Ok(brand);
+            return Ok(brands);  // Return BrandDto objects with products
+        }
+
+        // Updated GetById method to include products
+        [HttpGet("{BrandId:int}")]
+        public async Task<IActionResult> GetById(int BrandId)
+        {
+            var brand = await _brandRepo.GetBrandsWithProductsAsync();
+
+            var brandDto = brand.FirstOrDefault(b => b.BrandId == BrandId);  // Fetch the specific brand with products
+
+            if (brandDto == null)
+            {
+                return NotFound();
+            }
+            return Ok(brandDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create( CreateBrandRequestDto brandDto)
+        public async Task<IActionResult> Create(CreateBrandRequestDto brandDto)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +67,7 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpPut("{BrandId:int}")]
-        public async Task<IActionResult> Update(int BrandId,  UpdateBrandRequestDto brandupdateDto)
+        public async Task<IActionResult> Update(int BrandId, UpdateBrandRequestDto brandupdateDto)
         {
             if (!ModelState.IsValid)
             {

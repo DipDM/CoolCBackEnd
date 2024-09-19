@@ -59,13 +59,13 @@ namespace CoolCBackEnd.Repository
             return productModel;
         }
 
-        public async Task<List<Product>> GetAllAsync(QueryObject query)
+        public async Task<List<Product>> GetAllAsync(QueryObject query, List<int> brandIds, List<int> categoryIds)
         {
             var products = _context.Products
-            .Include(p => p.ProductImages)
-            .Include(c => c.ProductSizes)
-            .ThenInclude(l => l.Size)
-            .AsQueryable();
+                .Include(p => p.ProductImages)
+                .Include(c => c.ProductSizes)
+                .ThenInclude(l => l.Size)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.Name))
             {
@@ -75,17 +75,30 @@ namespace CoolCBackEnd.Repository
             {
                 products = products.Where(s => s.Description.Contains(query.Description));
             }
+
+            // Apply brandId filtering if provided
+            if (brandIds != null && brandIds.Any())
+            {
+                products = products.Where(p => brandIds.Contains(p.BrandId.Value));
+            }
+
+            // Apply categoryId filtering if provided
+            if (categoryIds != null && categoryIds.Any())
+            {
+                products = products.Where(p => categoryIds.Contains(p.CategoryId.Value));
+            }
+
             if (!string.IsNullOrWhiteSpace(query.SortBy))
             {
                 switch (query.SortBy.Trim().ToLower())
                 {
-                    case "Name":
+                    case "name":
                         products = query.IsDescending
                             ? products.OrderByDescending(s => s.Name)
                             : products.OrderBy(s => s.Name);
                         break;
 
-                    case "Description":
+                    case "description":
                         products = query.IsDescending
                             ? products.OrderByDescending(s => s.Description)
                             : products.OrderBy(s => s.Description);
@@ -99,9 +112,10 @@ namespace CoolCBackEnd.Repository
             return await products.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
+
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _context.Products.Include(p => p.ProductImages).Include( f => f.ProductSizes).ThenInclude(ps => ps.Size)
+            return await _context.Products.Include(p => p.ProductImages).Include(f => f.ProductSizes).ThenInclude(ps => ps.Size)
                                 .FirstOrDefaultAsync(p => p.ProductId == id);
         }
 

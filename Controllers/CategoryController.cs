@@ -23,20 +23,26 @@ namespace CoolCBackEnd.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var category = await _categoryRepo.GetAllAsync();
+            var category = await _categoryRepo.GetCategoriesWithProductsAsync();
+            if(category == null || !category.Any())
+            {
+                return NotFound();
+            }
             return Ok(category);
         }
 
         [HttpGet("{CategoryId:int}")]
         public async Task<IActionResult> GetById(int CategoryId)
         {
-            var category = await _categoryRepo.GetByIdAsync(CategoryId);
+            var category = await _categoryRepo.GetCategoriesWithProductsAsync();
+
+            var categoryDto = category.FirstOrDefault(b => b.CategoryId == CategoryId);
 
             if(category == null)
             {
                 return NotFound();
             }
-            return Ok(category);
+            return Ok(categoryDto);
         }
 
         [HttpPost]

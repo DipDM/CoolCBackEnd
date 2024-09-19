@@ -67,7 +67,7 @@ namespace CoolCBackEnd.Controllers
                 // Step 2: Check if addresses exist for the given userId
                 if (addresses == null || addresses.Count == 0)
                 {
-                    return NotFound(new { Message = "No addresses found for the specified user." });
+                    return Ok(new { Message = "No addresses found for the specified user." });
                 }
 
                 // Step 3: Return the list of addresses

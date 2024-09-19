@@ -269,7 +269,8 @@ namespace CoolCBackEnd.Controllers
                 var appUser = new User
                 {
                     UserName = userRegisterDto.Username,
-                    Email = userRegisterDto.Email
+                    Email = userRegisterDto.Email,
+                    CreationTime = DateTime.UtcNow
                 };
 
                 var createdUser = await _userManager.CreateAsync(appUser, userRegisterDto.Password);

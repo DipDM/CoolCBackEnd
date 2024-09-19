@@ -31,13 +31,16 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query, [FromQuery] List<int> brandIds, [FromQuery] List<int> categoryIds)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var products = await _productRepo.GetAllAsync(query);
+
+            // Pass the brandIds and categoryIds to the repository method
+            var products = await _productRepo.GetAllAsync(query, brandIds, categoryIds);
+
             // Map products to ProductDto including ProductImages
             var productDto = products.Select(p => new ProductDto
             {
@@ -58,17 +61,21 @@ namespace CoolCBackEnd.Controllers
                     SizeId = f.SizeId
                 }).ToList()
             }).ToList();
+
             var totalItems = await _productRepo.CountAsync(query);
             var totalPages = (int)Math.Ceiling((decimal)totalItems / query.PageSize);
 
             var response = new
             {
                 Items = productDto,
-                totalitems = totalItems,
+                totalItems = totalItems,
                 TotalPages = totalPages
             };
             return Ok(response);
         }
+
+
+
         [HttpGet("{productId:int}")]
         public async Task<IActionResult> GetById([FromRoute] int productId)
         {
@@ -161,10 +168,10 @@ namespace CoolCBackEnd.Controllers
             {
                 existingProduct.Description = updateDto.Description;
             }
-            
-                existingProduct.Price = updateDto.Price;
-                existingProduct.CategoryId = updateDto.CategoryId;
-                existingProduct.BrandId = updateDto.BrandId;
+
+            existingProduct.Price = updateDto.Price;
+            existingProduct.CategoryId = updateDto.CategoryId;
+            existingProduct.BrandId = updateDto.BrandId;
 
             await _productRepo.UpdatedAsync(ProductId, updateDto);
             return Ok(existingProduct.ToProductDto());

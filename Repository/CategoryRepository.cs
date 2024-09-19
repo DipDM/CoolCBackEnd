@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoolCBackEnd.Data;
+using CoolCBackEnd.Dtos.Category;
+using CoolCBackEnd.Dtos.Product;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +63,31 @@ namespace CoolCBackEnd.Repository
         public async Task<Category> GetByIdAsync(int CategoryId)
         {
             return await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == CategoryId);
+        }
+
+        public async Task<List<CategoryDto>> GetCategoriesWithProductsAsync()
+        {
+            var categories = await _context.Categories
+                .Include(b => b.Products)
+                .ToListAsync();
+
+            var categoryDtos = categories.Select( c => new CategoryDto
+            {
+                CategoryId = c.CategoryId,
+                Name = c.Name,
+                Description = c.Description,
+                Products = c.Products.Select(p => new ProductDto
+                {
+                    ProductId = p.ProductId,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    BrandId = p.BrandId,
+                    CategoryId = p.CategoryId
+                }).ToList() ?? new List<ProductDto>()
+            }).ToList();
+
+            return categoryDtos;
         }
     }
 }

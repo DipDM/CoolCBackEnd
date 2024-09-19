@@ -1,11 +1,11 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Adidas_jjknn\Adidas_jjknn.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Shirt Checked Blue\H&amp;M_Shirt Checked Blue_1.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Adidas_jjknn/Adidas_jjknn.jpg</RelativePath>
+      <RelativePath>images/H&amp;M_Shirt Checked Blue/H&amp;M_Shirt Checked Blue_1.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -14,14 +14,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Adidas_jjknn\Adidas_jjknn.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Shirt Checked Blue\H&amp;M_Shirt Checked Blue_1.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_1.jpeg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Shirt Checked Blue\H&amp;M_Shirt Checked Blue_2.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/H&amp;M_Expresso Cotton Gordon/H&amp;M_Expresso Cotton Gordon_1.jpeg</RelativePath>
+      <RelativePath>images/H&amp;M_Shirt Checked Blue/H&amp;M_Shirt Checked Blue_2.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -30,14 +30,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_1.jpeg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Shirt Checked Blue\H&amp;M_Shirt Checked Blue_2.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_2.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Shirt Checked Blue\H&amp;M_Shirt Checked Blue_3.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/H&amp;M_Expresso Cotton Gordon/H&amp;M_Expresso Cotton Gordon_2.jpg</RelativePath>
+      <RelativePath>images/H&amp;M_Shirt Checked Blue/H&amp;M_Shirt Checked Blue_3.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -46,14 +46,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_2.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Shirt Checked Blue\H&amp;M_Shirt Checked Blue_3.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_3.png))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_1.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/H&amp;M_Expresso Cotton Gordon/H&amp;M_Expresso Cotton Gordon_3.png</RelativePath>
+      <RelativePath>images/ModaRapido_Cool Beach Tshirt half/ModaRapido_Cool Beach Tshirt half_1.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -62,14 +62,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_3.png))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_1.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_4.png))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_2.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/H&amp;M_Expresso Cotton Gordon/H&amp;M_Expresso Cotton Gordon_4.png</RelativePath>
+      <RelativePath>images/ModaRapido_Cool Beach Tshirt half/ModaRapido_Cool Beach Tshirt half_2.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -78,14 +78,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\H&amp;M_Expresso Cotton Gordon\H&amp;M_Expresso Cotton Gordon_4.png))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_2.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Puma_Summer Shirt\Puma_Summer Shirt_1.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_3.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Puma_Summer Shirt/Puma_Summer Shirt_1.jpg</RelativePath>
+      <RelativePath>images/ModaRapido_Cool Beach Tshirt half/ModaRapido_Cool Beach Tshirt half_3.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -94,14 +94,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Puma_Summer Shirt\Puma_Summer Shirt_1.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_3.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_1.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_4.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Zara_Swimsuit with plastic wraps/Zara_Swimsuit with plastic wraps_1.jpg</RelativePath>
+      <RelativePath>images/ModaRapido_Cool Beach Tshirt half/ModaRapido_Cool Beach Tshirt half_4.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -110,14 +110,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_1.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_4.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_10.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_5.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Zara_Swimsuit with plastic wraps/Zara_Swimsuit with plastic wraps_10.jpg</RelativePath>
+      <RelativePath>images/ModaRapido_Cool Beach Tshirt half/ModaRapido_Cool Beach Tshirt half_5.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -126,14 +126,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_10.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ModaRapido_Cool Beach Tshirt half\ModaRapido_Cool Beach Tshirt half_5.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_13.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Raymonds_Classic Coat For formal wear\Raymonds_Classic Coat For formal wear_1.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Zara_Swimsuit with plastic wraps/Zara_Swimsuit with plastic wraps_13.jpg</RelativePath>
+      <RelativePath>images/Raymonds_Classic Coat For formal wear/Raymonds_Classic Coat For formal wear_1.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -142,14 +142,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_13.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Raymonds_Classic Coat For formal wear\Raymonds_Classic Coat For formal wear_1.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_6.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Raymonds_Classic Coat For formal wear\Raymonds_Classic Coat For formal wear_2.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Zara_Swimsuit with plastic wraps/Zara_Swimsuit with plastic wraps_6.jpg</RelativePath>
+      <RelativePath>images/Raymonds_Classic Coat For formal wear/Raymonds_Classic Coat For formal wear_2.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -158,14 +158,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_6.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Raymonds_Classic Coat For formal wear\Raymonds_Classic Coat For formal wear_2.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_7.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Raymonds_Classic Coat For formal wear\Raymonds_Classic Coat For formal wear_3.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Zara_Swimsuit with plastic wraps/Zara_Swimsuit with plastic wraps_7.jpg</RelativePath>
+      <RelativePath>images/Raymonds_Classic Coat For formal wear/Raymonds_Classic Coat For formal wear_3.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -174,14 +174,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_7.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Raymonds_Classic Coat For formal wear\Raymonds_Classic Coat For formal wear_3.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_8.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_1.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Zara_Swimsuit with plastic wraps/Zara_Swimsuit with plastic wraps_8.jpg</RelativePath>
+      <RelativePath>images/Roadster_Denim Jacket with attachable buttons/Roadster_Denim Jacket with attachable buttons_1.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -190,14 +190,14 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_8.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_1.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_9.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_2.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>CoolCBackEnd</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/CoolCBackEnd</BasePath>
-      <RelativePath>images/Zara_Swimsuit with plastic wraps/Zara_Swimsuit with plastic wraps_9.jpg</RelativePath>
+      <RelativePath>images/Roadster_Denim Jacket with attachable buttons/Roadster_Denim Jacket with attachable buttons_2.jpg</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -206,7 +206,87 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Zara_Swimsuit with plastic wraps\Zara_Swimsuit with plastic wraps_9.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_2.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_3.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>CoolCBackEnd</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/CoolCBackEnd</BasePath>
+      <RelativePath>images/Roadster_Denim Jacket with attachable buttons/Roadster_Denim Jacket with attachable buttons_3.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_3.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_4.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>CoolCBackEnd</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/CoolCBackEnd</BasePath>
+      <RelativePath>images/Roadster_Denim Jacket with attachable buttons/Roadster_Denim Jacket with attachable buttons_4.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Denim Jacket with attachable buttons\Roadster_Denim Jacket with attachable buttons_4.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Shirt Checked Awesome\Roadster_Shirt Checked Awesome_1.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>CoolCBackEnd</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/CoolCBackEnd</BasePath>
+      <RelativePath>images/Roadster_Shirt Checked Awesome/Roadster_Shirt Checked Awesome_1.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Shirt Checked Awesome\Roadster_Shirt Checked Awesome_1.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Shirt Checked Awesome\Roadster_Shirt Checked Awesome_2.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>CoolCBackEnd</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/CoolCBackEnd</BasePath>
+      <RelativePath>images/Roadster_Shirt Checked Awesome/Roadster_Shirt Checked Awesome_2.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Shirt Checked Awesome\Roadster_Shirt Checked Awesome_2.jpg))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Shirt Checked Awesome\Roadster_Shirt Checked Awesome_3.jpg))">
+      <SourceType>Package</SourceType>
+      <SourceId>CoolCBackEnd</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/CoolCBackEnd</BasePath>
+      <RelativePath>images/Roadster_Shirt Checked Awesome/Roadster_Shirt Checked Awesome_3.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\Roadster_Shirt Checked Awesome\Roadster_Shirt Checked Awesome_3.jpg))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

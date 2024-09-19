@@ -10,7 +10,7 @@ namespace CoolCBackEnd.Interfaces
 {
     public interface IProductRepository
     {
-        Task<List<Product>> GetAllAsync(QueryObject query);
+        Task<List<Product>> GetAllAsync(QueryObject query, List<int> brandIds, List<int> categoryIds);
         Task<int> CountAsync(QueryObject query);
         Task<Product> GetByIdAsync(int id);
         Task<Product> CreatedAsync(Product productModel);

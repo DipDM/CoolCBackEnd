@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoolCBackEnd.Data;
+using CoolCBackEnd.Dtos.Brand;
+using CoolCBackEnd.Dtos.Product;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +47,37 @@ namespace CoolCBackEnd.Repository
         {
             return await _context.Brands.FirstOrDefaultAsync(c => c.BrandId == BrandId);
         }
+
+        public async Task<List<BrandDto>> GetBrandsWithProductsAsync()
+        {
+            var brands = await _context.Brands
+                .Include(b => b.Products)
+                .ToListAsync();
+
+            // Map Brand entity to BrandDto including the list of products
+            var brandDtos = brands.Select(b => new BrandDto
+            {
+                BrandId = b.BrandId,
+                Name = b.Name,
+                NickName = b.NickName,
+                Products = b.Products.Select(p => new ProductDto
+                {
+                    ProductId = p.ProductId,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.Description,
+                    BrandId = p.BrandId,
+                    CategoryId = p.CategoryId,
+                    
+
+
+
+                }).ToList() ?? new List<ProductDto>()
+            }).ToList();
+
+            return brandDtos;
+        }
+
 
         public async Task<Brand> UpdateAsync(int BrandId, Brand brand)
         {
