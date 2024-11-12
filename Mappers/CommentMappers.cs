@@ -16,7 +16,9 @@ namespace CoolCBackEnd.Mappers
                 CommentId = commentModel.CommentId,
                 CommentText = commentModel.CommentText,
                 Rating = commentModel.Rating,
-                ProductId = commentModel.ProductId
+                ProductId = commentModel.ProductId,
+                UserId = commentModel.UserId,
+                UserName = commentModel.User?.UserName ?? "Unknown",
             };
         }
 

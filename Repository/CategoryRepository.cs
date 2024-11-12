@@ -76,6 +76,7 @@ namespace CoolCBackEnd.Repository
                 CategoryId = c.CategoryId,
                 Name = c.Name,
                 Description = c.Description,
+                Image = c.Image,
                 Products = c.Products.Select(p => new ProductDto
                 {
                     ProductId = p.ProductId,

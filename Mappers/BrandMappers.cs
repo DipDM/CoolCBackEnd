@@ -15,7 +15,7 @@ namespace CoolCBackEnd.Mappers
             {
                 BrandId = brandModel.BrandId,
                 Name = brandModel.Name,
-                NickName = brandModel.NickName
+                NickName = brandModel.NickName,
             };
         }
 
@@ -24,7 +24,8 @@ namespace CoolCBackEnd.Mappers
             return new Brand
             {
                 Name = brandRequestDto.Name,
-                NickName = brandRequestDto.NickName
+                NickName = brandRequestDto.NickName,
+              
             };
         }
     }

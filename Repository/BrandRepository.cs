@@ -60,6 +60,7 @@ namespace CoolCBackEnd.Repository
                 BrandId = b.BrandId,
                 Name = b.Name,
                 NickName = b.NickName,
+                Image = b.Image,
                 Products = b.Products.Select(p => new ProductDto
                 {
                     ProductId = p.ProductId,
@@ -68,10 +69,6 @@ namespace CoolCBackEnd.Repository
                     Description = p.Description,
                     BrandId = p.BrandId,
                     CategoryId = p.CategoryId,
-                    
-
-
-
                 }).ToList() ?? new List<ProductDto>()
             }).ToList();
 

@@ -10,5 +10,6 @@ namespace CoolCBackEnd.Dtos.ProductSize
         public int ProductSizeId{get; set;}
         public int ProductId {get; set;}
         public int SizeId {get; set;}
+        public bool Availability { get; set; }
     }
 }

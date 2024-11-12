@@ -14,9 +14,10 @@ namespace CoolCBackEnd.Models
         public int CartId {get; set;}
         public Cart Cart {get; set;}
         public int ProductId {get; set;}
-        
+        // New properties
+        public int SizeId { get; set; }
+        public Size? Size { get; set; }
         public decimal Price {get; set;}
-
         public Product Product {get; set;}
     }
 }

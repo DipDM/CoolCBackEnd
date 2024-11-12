@@ -40,7 +40,7 @@ public class ProductSizeController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(ProductSizeDto productSizeDto)
+    public async Task<IActionResult> Create(CreateProductSizeDto productSizeDto)
     {
         if (!ModelState.IsValid)
         {
@@ -50,7 +50,8 @@ public class ProductSizeController : ControllerBase
         var productSizeModel = new ProductSize
         {
             ProductId = productSizeDto.ProductId,
-            SizeId = productSizeDto.SizeId
+            SizeId = productSizeDto.SizeId,
+            Availability = productSizeDto.Availability,
         };
 
         var productSize = await _productSizeRepo.CreateAsync(productSizeModel);
@@ -58,7 +59,7 @@ public class ProductSizeController : ControllerBase
     }
 
     [HttpPut("{ProductSizeId:int}")]
-    public async Task<IActionResult> Update(int ProductSizeId, ProductSizeDto productSizeDto)
+    public async Task<IActionResult> Update(int ProductSizeId, UpdateProductSizeDto productSizeDto)
     {
         if (!ModelState.IsValid)
         {
@@ -73,6 +74,7 @@ public class ProductSizeController : ControllerBase
 
         existingProductSize.ProductId = productSizeDto.ProductId;
         existingProductSize.SizeId = productSizeDto.SizeId;
+        existingProductSize.Availability = productSizeDto.Availability;
 
         var updateProductSize = await _productSizeRepo.UpdateAsync(ProductSizeId, existingProductSize);
         return Ok(updateProductSize);

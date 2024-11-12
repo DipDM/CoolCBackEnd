@@ -31,8 +31,12 @@ namespace CoolCBackEnd.Repository
                 throw new Exception("Product not found.");
             }
 
-
-            Console.WriteLine($"Fetched Product Price: {product.Price}");
+            // Fetch size details if needed
+            var size = await _context.Sizes.FirstOrDefaultAsync(s => s.SizeId == cartItem.SizeId);
+            if (size == null)
+            {
+                throw new Exception("Size not found.");
+            }
 
             // Ensure the price is set to the product price multiplied by quantity
             cartItem.Price = product.Price * cartItem.Quantity;
@@ -45,6 +49,7 @@ namespace CoolCBackEnd.Repository
 
             return cartItem;
         }
+
 
         public async Task<CartItem> DeleteAsync(int cartItemId)
         {
@@ -72,6 +77,7 @@ namespace CoolCBackEnd.Repository
             if (cartItem == null) return null;
 
             cartItem.Quantity = cartItemDto.Quantity;
+            cartItem.SizeId = cartItemDto.SizeId;
 
             // Fetch the product again to ensure we have the latest price
             var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == cartItem.ProductId);
@@ -91,6 +97,7 @@ namespace CoolCBackEnd.Repository
 
             return cartItem;
         }
+
 
 
         public async Task<CartItem> AddOrUpdateCartItemAsync(int cartId, int productId, int quantity)
@@ -137,7 +144,7 @@ namespace CoolCBackEnd.Repository
         }
 
 
-        
+
 
     }
 }

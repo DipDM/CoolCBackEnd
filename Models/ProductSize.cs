@@ -12,6 +12,7 @@ namespace CoolCBackEnd.Models
         public int ProductSizeId {get; set;}
         public int ProductId {get; set;}
         public int SizeId {get; set;}
+        public bool Availability { get; set; } = true;
         public Product? Product {get; set;}
         public Size? Size {get; set;}
         // public List<Product> Products {get; set;} = new List<Product>();

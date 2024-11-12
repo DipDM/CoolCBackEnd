@@ -31,15 +31,27 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] QueryObject query, [FromQuery] List<int> brandIds, [FromQuery] List<int> categoryIds)
+        public async Task<IActionResult> GetAll(
+        [FromQuery] QueryObject query,
+        [FromQuery(Name = "brandIds")] string brandIds = null,
+        [FromQuery(Name = "categoryIds")] string categoryIds = null)
         {
+            // Parse the comma-separated values into lists
+            var brandIdList = string.IsNullOrWhiteSpace(brandIds)
+                ? new List<int>()
+                : brandIds.Split(',').Select(int.Parse).ToList();
+
+            var categoryIdList = string.IsNullOrWhiteSpace(categoryIds)
+                ? new List<int>()
+                : categoryIds.Split(',').Select(int.Parse).ToList();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // Pass the brandIds and categoryIds to the repository method
-            var products = await _productRepo.GetAllAsync(query, brandIds, categoryIds);
+            // Pass the lists to the repository method
+            var products = await _productRepo.GetAllAsync(query, brandIdList, categoryIdList);
 
             // Map products to ProductDto including ProductImages
             var productDto = products.Select(p => new ProductDto
@@ -58,21 +70,26 @@ namespace CoolCBackEnd.Controllers
                 ProductSizes = p.ProductSizes.Select(f => new ProductSizeDto
                 {
                     ProductSizeId = f.ProductSizeId,
-                    SizeId = f.SizeId
+                    SizeId = f.SizeId,
+                    Availability = f.Availability
                 }).ToList()
             }).ToList();
 
-            var totalItems = await _productRepo.CountAsync(query);
+            // Update totalItems to reflect filters
+            var totalItems = await _productRepo.CountAsync(query, brandIdList, categoryIdList);
             var totalPages = (int)Math.Ceiling((decimal)totalItems / query.PageSize);
 
             var response = new
             {
                 Items = productDto,
-                totalItems = totalItems,
+                totalItems,
                 TotalPages = totalPages
             };
+
             return Ok(response);
         }
+
+
 
 
 
@@ -115,7 +132,8 @@ namespace CoolCBackEnd.Controllers
                 ProductSizes = product.ProductSizes?.Select(ps => new ProductSizeDto
                 {
                     ProductSizeId = ps.ProductSizeId,
-                    SizeId = ps.SizeId
+                    SizeId = ps.SizeId,
+                    Availability = ps.Availability
                 }).ToList() ?? new List<ProductSizeDto>(),
             };
 

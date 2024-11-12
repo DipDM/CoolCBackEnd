@@ -43,7 +43,7 @@ builder.Services.AddScoped<IEmailService>(sp =>
         throw new InvalidOperationException("SMTP settings are not configured correctly.");
     }
     var smtpClient = sp.GetRequiredService<SmtpClient>();
-    return new EmailService(smtpClient, smtpSettings.FromAddress);
+    return new EmailService(smtpClient, smtpSettings.FromAddress); 
 });
 
 
@@ -85,7 +85,7 @@ builder.Services.AddScoped<ICouponOrderRepository, CouponOrderRepository>();
 builder.Services.AddScoped<ICouponUserRepository, CouponUserRepository>();
 builder.Services.AddScoped<IOtpCacheService, OtpCacheService>();
 builder.Services.AddHostedService<UserCleanupService>();
-builder.Services.AddScoped<IUserCleanupService,UserCleanupService>();
+builder.Services.AddScoped<IUserCleanupService, UserCleanupService>();
 builder.Services.AddScoped<IEmailService>(sp =>
 {
     var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
@@ -163,15 +163,26 @@ builder.Services.AddSwaggerGen(option =>
 });
 
 // Configure CORS
-builder.Services.AddCors(options =>
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowSpecificOrigin",
+//         policy =>
+//         {
+//             policy.WithOrigins("http://192.168.138.164:5173")
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod();
+//         });
+// });
+
+builder.Services.AddCors(options => 
 {
     options.AddPolicy("AllowSpecificOrigin",
-        policy =>
-        {
-            policy.WithOrigins("http://192.168.1.34:5173")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
 });
 
 builder.Logging.ClearProviders();
@@ -188,6 +199,7 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo API V1");
         c.RoutePrefix = "swagger";
     });
+
 }
 else
 {

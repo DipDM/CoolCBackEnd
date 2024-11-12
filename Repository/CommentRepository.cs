@@ -45,12 +45,12 @@ namespace CoolCBackEnd.Repository
 
         public async Task<List<Comment>> GetAllAsync()
         {
-            return await _context.Comments.ToListAsync();
+            return await _context.Comments.Include(c => c.User).ToListAsync();
         }
 
         public async Task<Comment> GetByIdAsync(int CommentId)
         {
-            return await _context.Comments.FirstOrDefaultAsync(x => x.CommentId == CommentId);
+            return await _context.Comments.Include(c => c.User).FirstOrDefaultAsync(x => x.CommentId == CommentId);
         }
 
         public async Task<Comment> UpdatedAsync(int CommentId, Comment commentModel)

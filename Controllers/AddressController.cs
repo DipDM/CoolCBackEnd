@@ -36,7 +36,6 @@ namespace CoolCBackEnd.Controllers
                     State = createDto.State,
                     Country = createDto.Country,
                     PostalCode = createDto.PostalCode
-
                 };
 
                 await _addressRepository.CreateAsync(address);

@@ -16,6 +16,7 @@ namespace CoolCBackEnd.Mappers
                 ProductSizeId = productSize.ProductSizeId,
                 ProductId = productSize.ProductId,
                 SizeId = productSize.SizeId,
+                Availability = productSize.Availability,
             };
         }
 
@@ -25,6 +26,7 @@ namespace CoolCBackEnd.Mappers
             {
                 ProductId = createProductSizeDto.ProductId,
                 SizeId = createProductSizeDto.SizeId,
+                Availability = createProductSizeDto.Availability,
             };
         }
     }

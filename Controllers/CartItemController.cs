@@ -6,7 +6,6 @@ using CoolCBackEnd.Data;
 using CoolCBackEnd.Dtos.CartItem;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Mappers;
-using CoolCBackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +17,7 @@ namespace CoolCBackEnd.Controllers
     {
         private readonly ICartItemRepository _cartItemRepository;
         private readonly ICartRepository _cartRepo;
-        private readonly ApplicationDBContext _context;  // Inject ApplicationDBContext
+        private readonly ApplicationDBContext _context;  
 
         public CartItemController(ICartItemRepository cartItemRepository, ApplicationDBContext context, ICartRepository cartRepo)
         {

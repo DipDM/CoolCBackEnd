@@ -16,8 +16,8 @@ namespace CoolCBackEnd.Dtos.Product
         public string Description { get; set; } = string.Empty;
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
-        public int? CategoryId {get; set;}
-        public int? BrandId {get; set;}
+        public int CategoryId {get; set;}
+        public int BrandId {get; set;}
         public List<ProductImageDto> ProductImages {get; set;}
         public List<CommentDto> Comments {get; set;} 
         public List<ProductSizeDto> ProductSizes {get; set;}
