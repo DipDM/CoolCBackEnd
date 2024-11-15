@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoolCBackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241112084621_AddSizeIdToCartItem1")]
-    partial class AddSizeIdToCartItem1
+    [Migration("20241113114330_AddSizeIdToCartIt")]
+    partial class AddSizeIdToCartIt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -640,13 +640,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9b5bc739-a2ef-40a5-aac2-6b788c4a8e93"),
+                            Id = new Guid("a5c35009-8008-4647-b249-1f12a282ba35"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("4e3fa905-4c80-4898-92f0-4573daa104ec"),
+                            Id = new Guid("03fe6647-a68b-460a-9e7a-cd40e1682aa0"),
                             Name = "User",
                             NormalizedName = "USER"
                         });

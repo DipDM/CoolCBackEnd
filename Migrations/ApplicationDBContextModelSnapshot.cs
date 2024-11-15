@@ -637,13 +637,13 @@ namespace CoolCBackEnd.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("73bf2ebf-e749-4ebc-b685-ca3c99680ddd"),
+                            Id = new Guid("a5c35009-8008-4647-b249-1f12a282ba35"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("4d46f249-51a3-481e-b572-44fa92d3a09c"),
+                            Id = new Guid("03fe6647-a68b-460a-9e7a-cd40e1682aa0"),
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -164,3 +164,5 @@ D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.svg.dll
 D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.commons.dll
 D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\itext.html2pdf.dll
 D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\Microsoft.DotNet.PlatformAbstractions.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\PayPalCheckoutSdk.dll
+D:\gram\development\Complete\CoolC\CoolCBackEnd\bin\Debug\net8.0\PayPalHttp-Dotnet.dll

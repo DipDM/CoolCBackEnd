@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using CoolCBackEnd.Service;
 using System.Net.Mail;
 using System.Net;
+using PayPalCheckoutSdk.Core;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -160,6 +162,32 @@ builder.Services.AddSwaggerGen(option =>
             new string[]{}
         }
     });
+});
+
+
+// Configure PayPal settings from `appsettings.json`
+builder.Services.Configure<PayPalOptions>(builder.Configuration.GetSection("PayPal"));
+
+// Add custom service to create PayPal client instance
+builder.Services.AddScoped(sp =>
+{
+    // Fetch PayPalOptions using IOptions pattern
+    var options = sp.GetRequiredService<IOptions<PayPalOptions>>().Value;
+
+    PayPalEnvironment environment;
+
+    // Explicitly create the environment based on configuration
+    if (options.Environment == "sandbox")
+    {
+        environment = new SandboxEnvironment(options.ClientId, options.ClientSecret);
+    }
+    else
+    {
+        environment = new LiveEnvironment(options.ClientId, options.ClientSecret);
+    }
+
+    // Return a new instance of PayPalHttpClient configured with the chosen environment
+    return new PayPalHttpClient(environment);
 });
 
 // Configure CORS

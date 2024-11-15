@@ -17,7 +17,7 @@ namespace CoolCBackEnd.Controllers
     {
         private readonly ICartItemRepository _cartItemRepository;
         private readonly ICartRepository _cartRepo;
-        private readonly ApplicationDBContext _context;  
+        private readonly ApplicationDBContext _context;
 
         public CartItemController(ICartItemRepository cartItemRepository, ApplicationDBContext context, ICartRepository cartRepo)
         {
@@ -59,7 +59,7 @@ namespace CoolCBackEnd.Controllers
             return CreatedAtAction(nameof(GetCartItemById), new { CartItemId = createdCartItem.CartItemId }, createdCartItem.ToCartItemDto());
         }
         [HttpPost("add-or-update")]
-        public async Task<ActionResult<CartItemDto>> AddOrUpdateCartItem([FromBody] CreateCartItemDto cartItemDto)
+        public async Task<ActionResult> AddOrUpdateCartItem([FromBody] CreateCartItemDto cartItemDto)
         {
             try
             {
@@ -67,12 +67,13 @@ namespace CoolCBackEnd.Controllers
                 var updatedCartItem = await _cartItemRepository.AddOrUpdateCartItemAsync(
                     cartItemDto.CartId,
                     cartItemDto.ProductId,
-                    cartItemDto.Quantity
+                    cartItemDto.Quantity,
+                    cartItemDto.SizeId // Added SizeId here
                 );
 
                 if (updatedCartItem == null)
                 {
-                    return BadRequest("Product not found.");
+                    return BadRequest("Product or Size not found.");
                 }
 
                 // Step 2: Update the Cart's TotalAmount by summing the prices of all items in the cart
@@ -100,6 +101,7 @@ namespace CoolCBackEnd.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
 
 
 
@@ -138,9 +140,7 @@ namespace CoolCBackEnd.Controllers
             {
                 return NotFound();
             }
-
             return Ok(new { product.Price });
         }
-
     }
 }

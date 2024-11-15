@@ -24,31 +24,27 @@ namespace CoolCBackEnd.Repository
 
         public async Task<CartItem> CreateAsync(CartItem cartItem)
         {
-            // Fetch the product to get the price
             var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == cartItem.ProductId);
             if (product == null)
             {
                 throw new Exception("Product not found.");
             }
 
-            // Fetch size details if needed
-            var size = await _context.Sizes.FirstOrDefaultAsync(s => s.SizeId == cartItem.SizeId);
-            if (size == null)
+            // Fetch ProductSize details
+            var productSize = await _context.ProductSizes.FirstOrDefaultAsync(ps => ps.ProductSizeId == cartItem.SizeId);
+            if (productSize == null)
             {
-                throw new Exception("Size not found.");
+                throw new Exception("ProductSize not found.");
             }
 
-            // Ensure the price is set to the product price multiplied by quantity
             cartItem.Price = product.Price * cartItem.Quantity;
-
             await _context.CartItems.AddAsync(cartItem);
             await _context.SaveChangesAsync();
-
-            // Recalculate the total cart amount
             await _cartRepository.UpdateCartTotalAmountAsync(cartItem.CartId);
 
             return cartItem;
         }
+
 
 
         public async Task<CartItem> DeleteAsync(int cartItemId)
@@ -100,38 +96,43 @@ namespace CoolCBackEnd.Repository
 
 
 
-        public async Task<CartItem> AddOrUpdateCartItemAsync(int cartId, int productId, int quantity)
+        public async Task<CartItem> AddOrUpdateCartItemAsync(int cartId, int productId, int quantity, int SizeId)
         {
+            var cart = await _context.Carts.FindAsync(cartId);
+            if (cart == null)
+            {
+                throw new Exception("Cart not found.");
+            }
+
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                throw new Exception("Product not found.");
+            }
+
+            var productSize = await _context.ProductSizes.FindAsync(SizeId);
+            if (productSize == null)
+            {
+                throw new Exception("ProductSize not found.");
+            }
+
             var existingCartItem = await _context.CartItems
-                .FirstOrDefaultAsync(ci => ci.CartId == cartId && ci.ProductId == productId);
+                .FirstOrDefaultAsync(ci => ci.CartId == cartId && ci.ProductId == productId && ci.SizeId == SizeId);
 
             if (existingCartItem != null)
             {
-                // Update quantity and price
                 existingCartItem.Quantity += quantity;
-
-                var product = await _context.Products.FindAsync(productId);
-                if (product != null)
-                {
-                    existingCartItem.Price = product.Price * existingCartItem.Quantity;
-                }
-
+                existingCartItem.Price = product.Price * existingCartItem.Quantity;
                 _context.CartItems.Update(existingCartItem);
             }
             else
             {
-                // Add new cart item
-                var product = await _context.Products.FindAsync(productId);
-                if (product == null)
-                {
-                    return null; // or handle product not found
-                }
-
                 var newCartItem = new CartItem
                 {
                     CartId = cartId,
                     ProductId = productId,
                     Quantity = quantity,
+                    SizeId = SizeId,
                     Price = product.Price * quantity
                 };
 
@@ -139,11 +140,8 @@ namespace CoolCBackEnd.Repository
             }
 
             await _context.SaveChangesAsync();
-            return existingCartItem ?? await _context.CartItems
-                .FirstOrDefaultAsync(ci => ci.CartId == cartId && ci.ProductId == productId);
+            return existingCartItem ?? await _context.CartItems.FirstOrDefaultAsync(ci => ci.CartId == cartId && ci.ProductId == productId && ci.SizeId == SizeId);
         }
-
-
 
 
     }

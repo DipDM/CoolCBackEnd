@@ -1,76 +1,81 @@
-using System;
-using System.Threading.Tasks;
-using CoolCBackEnd.Data;
-using CoolCBackEnd.Dtos.Payment;
-using CoolCBackEnd.Models;
-using CoolCBackEnd.Service;
 using Microsoft.AspNetCore.Mvc;
+using PayPalCheckoutSdk.Core;
+using PayPalCheckoutSdk.Orders;
+using PayPalHttp;
 
-namespace CoolCBackEnd.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class PaymentController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PaymentController : ControllerBase
+    private readonly PayPalHttpClient _paypalClient;
+
+    public PaymentController(PayPalHttpClient paypalClient)
     {
-        private readonly PaytmService _paytmService;
-        private readonly ApplicationDBContext _context;
-
-        public PaymentController(ApplicationDBContext context, PaytmService paytmService)
-        {
-            _context = context;
-            _paytmService = paytmService;
-        }
-
-        [HttpPost("pay")]
-        public async Task<IActionResult> Pay([FromBody] PaymentRequestDto paymentRequest)
-        {
-            // Fetch the order from the database
-            var order = await _context.Orders.FindAsync(paymentRequest.OrderId);
-            if (order == null)
-                return NotFound("Order not found");
-
-            // Call Paytm API to initiate payment
-            var paytmResponse = await _paytmService.InitiatePayment(order.OrderId, order.TotalAmount);
-
-            // Check if Paytm returned a valid response
-            if (paytmResponse == null || string.IsNullOrEmpty(paytmResponse.PaymentUrl))
-                return StatusCode(500, "Payment initiation failed");
-
-            // Return the redirect URL for Paytm's payment page
-            return Ok(new { redirectUrl = paytmResponse.PaymentUrl });
-        }
-
-        [HttpPost("payment-callback")]
-        public async Task<IActionResult> PaymentCallback([FromBody] PaytmCallbackDto paytmCallback)
-        {
-            // Validate the payment callback
-            if (paytmCallback == null || string.IsNullOrEmpty(paytmCallback.TransactionId))
-                return BadRequest("Invalid payment callback data");
-
-            // Save payment details to the database
-            var payment = new Payment
-            {
-                PaymentId = Guid.NewGuid(),
-                OrderId = paytmCallback.OrderId,
-                PaymentMethod = "Paytm",
-                TransactionId = paytmCallback.TransactionId,
-                PaymentStatus = paytmCallback.Status,
-                AmountPaid = paytmCallback.Amount,
-                PaymentDate = DateTime.Now
-            };
-
-            _context.Payments.Add(payment);
-            await _context.SaveChangesAsync();
-
-            // Update order status if payment is successful
-            var order = await _context.Orders.FindAsync(paytmCallback.OrderId);
-            if (order != null && paytmCallback.Status == "Success")
-            {
-                order.OrderStatus = "Paid";
-                await _context.SaveChangesAsync();
-            }
-
-            return Ok(new { success = true });
-        }
+        _paypalClient = paypalClient;
     }
+
+    [HttpPost("create-order")]
+    public async Task<IActionResult> CreateOrder(decimal amount)
+    {
+        var request = new OrdersCreateRequest();
+        request.Prefer("return=representation");
+        request.RequestBody(new OrderRequest
+        {
+            CheckoutPaymentIntent = "CAPTURE",
+            PurchaseUnits = new List<PurchaseUnitRequest>
+            {
+                new PurchaseUnitRequest
+                {
+                    AmountWithBreakdown = new AmountWithBreakdown
+                    {
+                        CurrencyCode = "USD",
+                        Value = amount.ToString("F2")
+                    }
+                }
+            },
+            ApplicationContext = new ApplicationContext
+            {
+                ReturnUrl = "https://your-frontend-url/success",
+                CancelUrl = "https://your-frontend-url/cancel"
+            }
+        });
+
+        var response = await _paypalClient.Execute(request);
+        var result = response.Result<Order>();
+        return Ok(new { OrderId = result.Id, Links = result.Links });
+    }
+
+    [HttpPost("capture-payment")]
+    public async Task<IActionResult> CapturePayment(string orderId)
+    {
+        // Set your PayPal client ID, client secret, and the URLs
+        string clientId = "ATB6UPwVMV-PwVmJaNLcDTRnIT8tLGjLOTufGPii5DkEC8THtSUihq8ctyudR5KkPpZ3-h_EmSJrsKFs";
+        string clientSecret = "ATB6UPwVMV-PwVmJaNLcDTRnIT8tLGjLOTufGPii5DkEC8THtSUihq8ctyudR5KkPpZ3-h_EmSJrsKFs";
+        string baseUrl = "https://api.sandbox.paypal.com"; // Use the sandbox URL for testing
+        string webUrl = "https://www.sandbox.paypal.com"; // Web URL for sandbox
+
+        // Initialize PayPal environment with all required parameters
+        var environment = new PayPalEnvironment(clientId, clientSecret, baseUrl, webUrl);
+
+        // Initialize the PayPal HTTP client with the environment
+        var client = new PayPalHttpClient(environment);
+
+        // Create capture request for the given orderId
+        var request = new OrdersCaptureRequest(orderId);
+
+        // Execute the capture request
+        var response = await client.Execute(request);
+
+        var result = response.Result<PayPalCheckoutSdk.Orders.Order>();
+
+        // Check if the payment was captured successfully
+        if (result.Status == "COMPLETED")
+        {
+            // Mark the order as paid in your system, and respond to the client
+            return Ok(new { message = "Payment captured successfully" });
+        }
+
+        return BadRequest(new { message = "Payment capture failed" });
+    }
+
 }

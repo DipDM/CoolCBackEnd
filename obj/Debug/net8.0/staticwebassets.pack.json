@@ -1,22 +1,6 @@
 {
   "Files": [
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\adidas\\adidas.png",
-      "PackagePath": "staticwebassets\\brand\\adidas\\adidas.png"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\gucci\\gucci.png",
-      "PackagePath": "staticwebassets\\brand\\gucci\\gucci.png"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\hm\\hm.png",
-      "PackagePath": "staticwebassets\\brand\\hm\\hm.png"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\modarapido\\modarapido.jfif",
-      "PackagePath": "staticwebassets\\brand\\modarapido\\modarapido.jfif"
-    },
-    {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\nike\\nike.png",
       "PackagePath": "staticwebassets\\brand\\nike\\nike.png"
     },
@@ -25,60 +9,28 @@
       "PackagePath": "staticwebassets\\brand\\puma\\puma.png"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\raymonds\\raymonds.png",
-      "PackagePath": "staticwebassets\\brand\\raymonds\\raymonds.png"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\roadster\\roadster.jfif",
-      "PackagePath": "staticwebassets\\brand\\roadster\\roadster.jfif"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\zara\\zara.png",
-      "PackagePath": "staticwebassets\\brand\\zara\\zara.png"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\reebok\\reebok.png",
+      "PackagePath": "staticwebassets\\brand\\reebok\\reebok.png"
     },
     {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\zudio\\zudio.png",
       "PackagePath": "staticwebassets\\brand\\zudio\\zudio.png"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\hoodie\\hoodie.webp",
-      "PackagePath": "staticwebassets\\category\\hoodie\\hoodie.webp"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\jacket\\jacket.png",
-      "PackagePath": "staticwebassets\\category\\jacket\\jacket.png"
-    },
-    {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\jeans\\jeans.jpg",
       "PackagePath": "staticwebassets\\category\\jeans\\jeans.jpg"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\pant\\pant.webp",
-      "PackagePath": "staticwebassets\\category\\pant\\pant.webp"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\pant\\pant.jpg",
+      "PackagePath": "staticwebassets\\category\\pant\\pant.jpg"
     },
     {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\shirt\\shirt.jpg",
       "PackagePath": "staticwebassets\\category\\shirt\\shirt.jpg"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\shorts\\shorts.jpg",
-      "PackagePath": "staticwebassets\\category\\shorts\\shorts.jpg"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\suit\\suit.jfif",
-      "PackagePath": "staticwebassets\\category\\suit\\suit.jfif"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\sweater\\sweater.jpg",
-      "PackagePath": "staticwebassets\\category\\sweater\\sweater.jpg"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\tshirt\\tshirt.jpg",
-      "PackagePath": "staticwebassets\\category\\tshirt\\tshirt.jpg"
-    },
-    {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\underwear\\underwear.jpg",
-      "PackagePath": "staticwebassets\\category\\underwear\\underwear.jpg"
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\tshirt\\tshirt.webp",
+      "PackagePath": "staticwebassets\\category\\tshirt\\tshirt.webp"
     },
     {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Shirt Checked Blue\\H&M_Shirt Checked Blue_1.jpg",
@@ -111,6 +63,10 @@
     {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_5.jpg",
       "PackagePath": "staticwebassets\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_5.jpg"
+    },
+    {
+      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Nike_Gucci Chaddi\\Nike_Gucci Chaddi_1.jfif",
+      "PackagePath": "staticwebassets\\images\\Nike_Gucci Chaddi\\Nike_Gucci Chaddi_1.jfif"
     },
     {
       "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Raymonds_Classic Coat For formal wear\\Raymonds_Classic Coat For formal wear_1.jpg",

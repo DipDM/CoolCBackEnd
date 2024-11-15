@@ -56,6 +56,7 @@ namespace CoolCBackEnd.Data
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            
             modelBuilder.Entity<Address>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Addresses)
@@ -67,14 +68,15 @@ namespace CoolCBackEnd.Data
                 .WithMany(u => u.Orders)
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Order>(entity =>
-        {
-            entity.HasKey(e => e.OrderId);
-            entity.Property(e => e.OrderStatus).IsRequired();
-            entity.Property(e => e.PaymentStatus).IsRequired();
-            entity.Property(e => e.TotalAmount).IsRequired();
-            entity.Property(e => e.UserId).IsRequired();
-        });
+                {
+                    entity.HasKey(e => e.OrderId);
+                    entity.Property(e => e.OrderStatus).IsRequired();
+                    entity.Property(e => e.PaymentStatus).IsRequired();
+                    entity.Property(e => e.TotalAmount).IsRequired();
+                    entity.Property(e => e.UserId).IsRequired();
+                });
 
             // Avoid multiple cascade paths by setting DeleteBehavior to NoAction for ShippingDetail
             modelBuilder.Entity<ShippingDetail>()
@@ -160,7 +162,7 @@ namespace CoolCBackEnd.Data
                 .WithMany(o => o.Payments)
                 .HasForeignKey(x => x.OrderId)
                 .OnDelete(DeleteBehavior.Cascade); //Cascade delete if an order is removed
-            
+
             modelBuilder.Entity<Payment>(entity =>
         {
             entity.HasKey(e => e.PaymentId);

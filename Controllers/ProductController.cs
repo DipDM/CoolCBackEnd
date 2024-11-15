@@ -142,7 +142,7 @@ namespace CoolCBackEnd.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateProductRequestDto productDto)
+        public async Task<IActionResult> Create( CreateProductRequestDto productDto)
         {
             if (!ModelState.IsValid)
             {
