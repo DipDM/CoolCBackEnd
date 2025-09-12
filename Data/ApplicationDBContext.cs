@@ -191,5 +191,4 @@ namespace CoolCBackEnd.Data
             modelBuilder.Entity<IdentityRole<Guid>>().HasData(roles);
         }
     }
-
 }

@@ -70,6 +70,8 @@ namespace CoolCBackEnd.Controllers
 
                 // Ensure the file extension is preserved
                 string fileExtension = Path.GetExtension(imageFile.FileName);
+                
+                // add both sanitized + fileextesnion
                 imageFileName = sanitizedBrandName + fileExtension;
 
                 // Generate the folder path for the brand

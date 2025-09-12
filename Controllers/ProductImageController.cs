@@ -45,8 +45,6 @@ namespace CoolCBackEnd.Controllers
             return Ok(productImage);
         }
 
-
-
         [HttpGet]
         public async Task<IActionResult> GetAllImages()
         {
@@ -109,9 +107,5 @@ namespace CoolCBackEnd.Controllers
                 return StatusCode(500, $"Internal Server error:{e.Message}");
             }
         }
-
-
-
-
     }
 }

@@ -90,9 +90,6 @@ namespace CoolCBackEnd.Controllers
         }
 
 
-
-
-
         [HttpGet("{productId:int}")]
         public async Task<IActionResult> GetById([FromRoute] int productId)
         {

@@ -9,7 +9,7 @@ namespace CoolCBackEnd.Interfaces
 {
     public interface IOrderItemRepository
     {
-         Task<OrderItem> CreateAsync(OrderItem OrderItem);
+        Task<OrderItem> CreateAsync(OrderItem OrderItem);
         Task<OrderItem> DeleteAsync(int OrderItemId);
         Task<List<OrderItem>> GetAllAsync();
         Task<OrderItem> GetByIdAsync(int OrderItemId);

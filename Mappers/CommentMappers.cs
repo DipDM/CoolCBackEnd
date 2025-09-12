@@ -21,7 +21,6 @@ namespace CoolCBackEnd.Mappers
                 UserName = commentModel.User?.UserName ?? "Unknown",
             };
         }
-
         public static Comment ToCommentFromCreate(this CreateCommentRequestDto commentDto, int ProductId)
         {
             return new Comment
@@ -31,7 +30,6 @@ namespace CoolCBackEnd.Mappers
                 ProductId = ProductId
             };
         }
-
         public static Comment ToCommentFromUpdate(this UpdateCommentRequestDto commentDto)
         {
             return new Comment

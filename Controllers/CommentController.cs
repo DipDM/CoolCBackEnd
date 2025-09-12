@@ -74,9 +74,6 @@ namespace CoolCBackEnd.Controllers
             return Ok(commentDtos);
         }
 
-
-
-
         [HttpGet("{CommentId:int}")]
         public async Task<IActionResult> GetById([FromRoute] int CommentId)
         {
