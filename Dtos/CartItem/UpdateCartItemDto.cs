@@ -8,5 +8,6 @@ namespace CoolCBackEnd.Dtos.CartItem
     public class UpdateCartItemDto
     {
         public int Quantity {get; set;}
+        public int SizeId { get; set; }
     }
 }

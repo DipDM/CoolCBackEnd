@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoolCBackEnd.Dtos.Category;
 using CoolCBackEnd.Models;
 
 namespace CoolCBackEnd.Interfaces
@@ -13,5 +14,6 @@ namespace CoolCBackEnd.Interfaces
         Task<Category> DeleteAsync(int CategoryId);
         Task<List<Category>> GetAllAsync();
         Task<Category> GetByIdAsync(int CategoryId);
+        Task<List<CategoryDto>> GetCategoriesWithProductsAsync();
     }
 }

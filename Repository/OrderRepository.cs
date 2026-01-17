@@ -27,7 +27,7 @@ namespace CoolCBackEnd.Repository
         public async Task<Order> DeleteAsync(Guid OrderId)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(c => c.OrderId == OrderId);
-            if(order == null)
+            if (order == null)
             {
                 return null;
             }
@@ -46,5 +46,71 @@ namespace CoolCBackEnd.Repository
         {
             return await _context.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(c => c.OrderId == OrderId);
         }
+
+        public async Task<Order> UpdateTotalAmountAsync(Guid orderId)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            order.TotalAmount = order.OrderItems.Sum(oi => oi.Price);
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+
+            return order;
+        }
+
+
+        // Method to create an order from cart items
+        public async Task<Order> CreateOrderFromCartAsync(int cartId, Guid userId)
+        {
+            // Fetch the cart items
+            var cartItems = await _context.CartItems
+                                          .Where(ci => ci.CartId == cartId)
+                                          .ToListAsync();
+
+            // Calculate total amount
+            var totalAmount = cartItems.Sum(ci => ci.Quantity * ci.Price);
+
+            // Create new order
+            var order = new Order
+            {
+                UserId = userId,
+                OrderDate = DateTime.UtcNow,
+                TotalAmount = totalAmount,
+                OrderStatus = "Pending", // initial status
+                OrderItems = cartItems.Select(ci => new OrderItem
+                {
+                    ProductId = ci.ProductId,
+                    Quantity = ci.Quantity,
+                    Price = ci.Price
+                }).ToList()
+            };
+
+            // Save the order and order items
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            // Optional: Clear cart after order is created
+            await ClearCartAsync(cartId);
+
+            return order;
+        }
+
+        // Optional method to clear the cart
+        private async Task ClearCartAsync(int cartId)
+        {
+            var cartItems = await _context.CartItems
+                                          .Where(ci => ci.CartId == cartId)
+                                          .ToListAsync();
+            _context.CartItems.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

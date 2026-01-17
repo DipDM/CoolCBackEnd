@@ -24,11 +24,11 @@ namespace CoolCBackEnd.Repository
         {
             return await _context.Products.AnyAsync(s => s.ProductId == productId);
         }
-
-        public async Task<int> CountAsync(QueryObject query)
+        public async Task<int> CountAsync(QueryObject query, List<int> brandIds, List<int> categoryIds)
         {
             var products = _context.Products.AsQueryable();
 
+            // Apply filters based on the query object
             if (!string.IsNullOrWhiteSpace(query.Name))
             {
                 products = products.Where(s => s.Name.Contains(query.Name));
@@ -37,8 +37,22 @@ namespace CoolCBackEnd.Repository
             {
                 products = products.Where(s => s.Description.Contains(query.Description));
             }
+
+            // Filter by brandIds
+            if (brandIds.Any())
+            {
+                products = products.Where(p => brandIds.Contains(p.BrandId));
+            }
+
+            // Filter by categoryIds
+            if (categoryIds.Any())
+            {
+                products = products.Where(p => categoryIds.Contains(p.CategoryId));
+            }
+
             return await products.CountAsync();
         }
+
 
         public async Task<Product> CreatedAsync(Product productModel)
         {
@@ -59,11 +73,13 @@ namespace CoolCBackEnd.Repository
             return productModel;
         }
 
-        public async Task<List<Product>> GetAllAsync(QueryObject query)
+        public async Task<List<Product>> GetAllAsync(QueryObject query, List<int> brandIds, List<int> categoryIds)
         {
             var products = _context.Products
-            .Include(p => p.ProductImages)
-            .AsQueryable();
+                .Include(p => p.ProductImages)
+                .Include(c => c.ProductSizes)
+                .ThenInclude(l => l.Size)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(query.Name))
             {
@@ -73,22 +89,40 @@ namespace CoolCBackEnd.Repository
             {
                 products = products.Where(s => s.Description.Contains(query.Description));
             }
+
+            // Apply brandId filtering if provided
+            if (brandIds != null && brandIds.Count > 0)
+            {
+                products = products.Where(p => brandIds.Contains(p.BrandId));
+            }
+
+            // Apply categoryId filtering if provided
+            if (categoryIds != null && categoryIds.Count > 0)
+            {
+                products = products.Where(p => categoryIds.Contains(p.CategoryId));
+            }
+
             if (!string.IsNullOrWhiteSpace(query.SortBy))
             {
                 switch (query.SortBy.Trim().ToLower())
                 {
-                    case "Name":
+                    case "name":
                         products = query.IsDescending
                             ? products.OrderByDescending(s => s.Name)
                             : products.OrderBy(s => s.Name);
                         break;
 
-                    case "Description":
+                    case "description":
                         products = query.IsDescending
                             ? products.OrderByDescending(s => s.Description)
                             : products.OrderBy(s => s.Description);
                         break;
 
+                    case "price":
+                        products = query.IsDescending
+                            ? products.OrderByDescending(s => s.Price)
+                            : products.OrderBy(s => s.Price);
+                        break;
                         // Add additional cases here for other sorting options if needed
                 }
             }
@@ -97,9 +131,10 @@ namespace CoolCBackEnd.Repository
             return await products.Skip(skipNumber).Take(query.PageSize).ToListAsync();
         }
 
+
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _context.Products.Include(p => p.ProductImages)
+            return await _context.Products.Include(p => p.ProductImages).Include(f => f.ProductSizes).ThenInclude(ps => ps.Size)
                                 .FirstOrDefaultAsync(p => p.ProductId == id);
         }
 

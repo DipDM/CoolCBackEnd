@@ -19,7 +19,7 @@ namespace CoolCBackEnd.Controllers
             _webHostEnvironment = webhostEnvironment;
         }
 
-        [HttpPost("{productId}")]
+        [HttpPost("{productId:int}")]
         public async Task<IActionResult> UploadImage(int productId, IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)
@@ -32,6 +32,19 @@ namespace CoolCBackEnd.Controllers
             return Ok(productImage);
         }
 
+        [HttpPut("{productImageId:int}")]
+        public async Task<IActionResult> UpdateImage(int productImageId, IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+            {
+                return BadRequest("Image File is missing");
+            }
+
+            var productImage = await _productImageRepository.UpdateAsync(productImageId,imageFile);
+
+            return Ok(productImage);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllImages()
         {
@@ -39,10 +52,10 @@ namespace CoolCBackEnd.Controllers
             return Ok(images);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetImageById(int id)
+        [HttpGet("{productImageId:int}")]
+        public async Task<IActionResult> GetImageById(int productImageId)
         {
-            var image = await _productImageRepository.GetByIdAsync(id);
+            var image = await _productImageRepository.GetByIdAsync(productImageId);
             if (image == null)
             {
                 return NotFound();
@@ -50,12 +63,23 @@ namespace CoolCBackEnd.Controllers
             return Ok(image);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteImage(int id)
+        [HttpGet("product/{productId:int}")]
+        public async Task<IActionResult> GetImagesByProductId(int productId)
+        {
+            var images = await _productImageRepository.GetByProductIdAsync(productId);
+            if(images == null)
+            {
+                return NotFound();
+            }
+            return Ok(images);
+        }
+
+        [HttpDelete("{productImageId:int}")]
+        public async Task<IActionResult> DeleteImage(int productImageId)
         {
             try
             {
-                var productImage = await _productImageRepository.GetByIdAsync(id);
+                var productImage = await _productImageRepository.GetByIdAsync(productImageId);
 
                 if (productImage == null)
                 {
@@ -70,7 +94,8 @@ namespace CoolCBackEnd.Controllers
                 {
                     System.IO.File.Delete(filePath);
                 }
-                else{
+                else
+                {
                     Console.WriteLine("File Does not exists");
                 }
 
@@ -81,13 +106,6 @@ namespace CoolCBackEnd.Controllers
             {
                 return StatusCode(500, $"Internal Server error:{e.Message}");
             }
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateImage(int id, ProductImage productImageModel)
-        {
-            var updatedImage = await _productImageRepository.UpdatedAsync(id, productImageModel);
-            return Ok(updatedImage);
         }
     }
 }

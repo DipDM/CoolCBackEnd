@@ -10,6 +10,8 @@ namespace CoolCBackEnd.Dtos.Comment
         public int CommentId {get; set;}
         public string CommentText {get; set;} = string.Empty;
         public int? Rating {get; set;}
-        public int? ProductId {get; set;}
+        public string UserName {get;set;}
+        public int ProductId {get; set;}
+        public Guid UserId {get; set;}
     }
 }

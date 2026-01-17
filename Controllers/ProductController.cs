@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CoolCBackEnd.Data;
 using CoolCBackEnd.Dtos.Product;
 using CoolCBackEnd.Dtos.ProductImage;
+using CoolCBackEnd.Dtos.ProductSize;
 using CoolCBackEnd.Helpers;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Mappers;
@@ -30,13 +31,28 @@ namespace CoolCBackEnd.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
+        public async Task<IActionResult> GetAll(
+        [FromQuery] QueryObject query,
+        [FromQuery(Name = "brandIds")] string brandIds = null,
+        [FromQuery(Name = "categoryIds")] string categoryIds = null)
         {
+            // Parse the comma-separated values into lists
+            var brandIdList = string.IsNullOrWhiteSpace(brandIds)
+                ? new List<int>()
+                : brandIds.Split(',').Select(int.Parse).ToList();
+
+            var categoryIdList = string.IsNullOrWhiteSpace(categoryIds)
+                ? new List<int>()
+                : categoryIds.Split(',').Select(int.Parse).ToList();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var products = await _productRepo.GetAllAsync(query);
+
+            // Pass the lists to the repository method
+            var products = await _productRepo.GetAllAsync(query, brandIdList, categoryIdList);
+
             // Map products to ProductDto including ProductImages
             var productDto = products.Select(p => new ProductDto
             {
@@ -44,23 +60,35 @@ namespace CoolCBackEnd.Controllers
                 Name = p.Name,
                 Description = p.Description,
                 Price = p.Price,
+                BrandId = p.BrandId,
+                CategoryId = p.CategoryId,
                 ProductImages = p.ProductImages.Select(pi => new ProductImageDto
                 {
                     ProductImageId = pi.ProductImageId,
                     ImagePath = pi.ImagePath
+                }).ToList(),
+                ProductSizes = p.ProductSizes.Select(f => new ProductSizeDto
+                {
+                    ProductSizeId = f.ProductSizeId,
+                    SizeId = f.SizeId,
+                    Availability = f.Availability
                 }).ToList()
             }).ToList();
-            var totalItems = await _productRepo.CountAsync(query);
+
+            // Update totalItems to reflect filters
+            var totalItems = await _productRepo.CountAsync(query, brandIdList, categoryIdList);
             var totalPages = (int)Math.Ceiling((decimal)totalItems / query.PageSize);
 
             var response = new
             {
                 Items = productDto,
-                totalitems = totalItems,
+                totalItems,
                 TotalPages = totalPages
             };
+
             return Ok(response);
         }
+
 
         [HttpGet("{productId:int}")]
         public async Task<IActionResult> GetById([FromRoute] int productId)
@@ -70,9 +98,12 @@ namespace CoolCBackEnd.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Fetch the product including related ProductImages
+            // Fetch the product including related ProductImages, ProductSizes, Brand, and Category
             var product = await _context.Products
                 .Include(p => p.ProductImages)
+                .Include(p => p.ProductSizes)
+                .Include(p => p.Brand)       // Include the Brand entity
+                .Include(p => p.Category)    // Include the Category entity
                 .FirstOrDefaultAsync(p => p.ProductId == productId);
 
             if (product == null)
@@ -80,18 +111,27 @@ namespace CoolCBackEnd.Controllers
                 return NotFound();
             }
 
-            // Map the product to ProductDto including ProductImages
+            // Map the product to ProductDto including ProductImages, ProductSizes, Brand, and Category
             var productDto = new ProductDto
             {
                 ProductId = product.ProductId,
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
-                ProductImages = product.ProductImages.Select(pi => new ProductImageDto
+                BrandId = product.BrandId,          // Ensure BrandId is populated
+                CategoryId = product.CategoryId,    // Ensure CategoryId is populated
+                ProductImages = product.ProductImages?.Select(pi => new ProductImageDto
                 {
                     ProductImageId = pi.ProductImageId,
                     ImagePath = pi.ImagePath
-                }).ToList()
+                }).ToList() ?? new List<ProductImageDto>(),
+
+                ProductSizes = product.ProductSizes?.Select(ps => new ProductSizeDto
+                {
+                    ProductSizeId = ps.ProductSizeId,
+                    SizeId = ps.SizeId,
+                    Availability = ps.Availability
+                }).ToList() ?? new List<ProductSizeDto>(),
             };
 
             return Ok(productDto);
@@ -99,7 +139,7 @@ namespace CoolCBackEnd.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateProductRequestDto productDto)
+        public async Task<IActionResult> Create( CreateProductRequestDto productDto)
         {
             if (!ModelState.IsValid)
             {
@@ -114,6 +154,8 @@ namespace CoolCBackEnd.Controllers
                 CategoryId = productDto.CategoryId,
                 BrandId = productDto.BrandId
             };
+            // Example for debugging
+            Console.WriteLine($"BrandId: {productDto.BrandId}");
 
             await _productRepo.CreatedAsync(productModel);
             return CreatedAtAction(nameof(GetById), new { ProductId = productModel.ProductId }, productModel.ToProductDto());
@@ -141,18 +183,10 @@ namespace CoolCBackEnd.Controllers
             {
                 existingProduct.Description = updateDto.Description;
             }
-            if (updateDto.Price.HasValue)
-            {
-                existingProduct.Price = updateDto.Price.Value;
-            }
-            if (updateDto.CategoryId.HasValue)
-            {
-                existingProduct.CategoryId = updateDto.CategoryId.Value;
-            }
-            if (updateDto.BrandId.HasValue)
-            {
-                existingProduct.BrandId = updateDto.BrandId.Value;
-            }
+
+            existingProduct.Price = updateDto.Price;
+            existingProduct.CategoryId = updateDto.CategoryId;
+            existingProduct.BrandId = updateDto.BrandId;
 
             await _productRepo.UpdatedAsync(ProductId, updateDto);
             return Ok(existingProduct.ToProductDto());

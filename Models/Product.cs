@@ -19,12 +19,14 @@ namespace CoolCBackEnd.Models
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? Price { get; set; }
-        public int? CategoryId {get; set;}
-        public Category? Category {get; set;}
-        public int? BrandId {get; set;}
+        public decimal Price { get; set; }
+        public int CategoryId {get; set;}
+        public Category Category {get; set;}
+        public int BrandId {get; set;}
         public Brand? Brand {get; set;}
         public List<ProductImage> ProductImages {get; set;} = new List<ProductImage>();
         public List<Comment> Comments {get; set;} = new List<Comment>();
+        public ICollection<ProductSize> ProductSizes {get; set;}
+        public ICollection<CartItem> CartItems{get; set;}
     }
 }

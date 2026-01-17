@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoolCBackEnd.Dtos.Brand;
 using CoolCBackEnd.Models;
 
 namespace CoolCBackEnd.Interfaces
@@ -13,5 +14,6 @@ namespace CoolCBackEnd.Interfaces
         Task<Brand> DeleteAsync(int BrandId);
         Task<List<Brand>> GetAllAsync();
         Task<Brand> GetByIdAsync(int BrandId);
+        Task<List<BrandDto>> GetBrandsWithProductsAsync();
     }
 }

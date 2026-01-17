@@ -14,9 +14,12 @@ namespace CoolCBackEnd.Mappers
         {
             return new CartItemDto
             {
+                CartItemId = cartItemModel.CartItemId,
                 CartId = cartItemModel.CartId,
                 ProductId = cartItemModel.ProductId,
-                Quantity = cartItemModel.Quantity
+                Quantity = cartItemModel.Quantity,
+                Price = cartItemModel.Price,
+                SizeId = cartItemModel.SizeId
             };
         }
 
@@ -27,7 +30,7 @@ namespace CoolCBackEnd.Mappers
                 CartId = cartItemDto.CartId,
                 ProductId = cartItemDto.ProductId,
                 Quantity = cartItemDto.Quantity,
-                CartItemId = cartItemDto.CartItemId
+                SizeId = cartItemDto.SizeId
             };
         }
 
@@ -35,7 +38,8 @@ namespace CoolCBackEnd.Mappers
         {
             return new CartItem
             {
-                Quantity = cartItemDto.Quantity
+                Quantity = cartItemDto.Quantity,
+                SizeId = cartItemDto.SizeId
             };
         }
     }

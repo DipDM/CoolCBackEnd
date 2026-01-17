@@ -12,7 +12,7 @@ namespace CoolCBackEnd.Repository
 {
     public class OrderItemRepository : IOrderItemRepository
     {
-         private readonly ApplicationDBContext _context;
+        private readonly ApplicationDBContext _context;
 
         public OrderItemRepository(ApplicationDBContext context)
         {
@@ -57,5 +57,31 @@ namespace CoolCBackEnd.Repository
             await _context.SaveChangesAsync();
             return OrderItem;
         }
+
+        public async Task<List<CartItem>> GetCartItemsAsync(int cartId)
+        {
+            return await _context.CartItems
+                .Where(ci => ci.CartId == cartId)
+                .ToListAsync();
+        }
+
+
+
+        public async Task<List<OrderItem>> CreateOrderItemsFromCartAsync(Guid orderId, List<CartItem> cartItems)
+        {
+            var orderItems = cartItems.Select(ci => new OrderItem
+            {
+                OrderId = orderId,
+                ProductId = ci.ProductId,
+                Quantity = ci.Quantity,
+                Price = ci.Price // Assume price is already calculated in the CartItem
+            }).ToList();
+
+            await _context.OrderItems.AddRangeAsync(orderItems);
+            await _context.SaveChangesAsync();
+
+            return orderItems;
+        }
+
     }
 }

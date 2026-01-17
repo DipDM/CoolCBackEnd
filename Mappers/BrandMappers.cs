@@ -9,13 +9,13 @@ namespace CoolCBackEnd.Mappers
 {
     public static class BrandMappers
     {
-        public static BrandDto ToCategoryDto(this Brand brandModel)
+        public static BrandDto ToBrandDto(this Brand brandModel)
         {
             return new BrandDto
             {
                 BrandId = brandModel.BrandId,
                 Name = brandModel.Name,
-                NickName = brandModel.NickName
+                NickName = brandModel.NickName,
             };
         }
 
@@ -24,7 +24,7 @@ namespace CoolCBackEnd.Mappers
             return new Brand
             {
                 Name = brandRequestDto.Name,
-                NickName = brandRequestDto.NickName
+                NickName = brandRequestDto.NickName,
             };
         }
     }

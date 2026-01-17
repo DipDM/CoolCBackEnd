@@ -1,20 +1,112 @@
 {
   "Files": [
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Dipesh\\Dipesh_7.jpg",
-      "PackagePath": "staticwebassets\\images\\Dipesh\\Dipesh_7.jpg"
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\nike\\nike.png",
+      "PackagePath": "staticwebassets\\brand\\nike\\nike.png"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Valet\\Valet_1.jpg",
-      "PackagePath": "staticwebassets\\images\\Valet\\Valet_1.jpg"
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\puma\\puma.png",
+      "PackagePath": "staticwebassets\\brand\\puma\\puma.png"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Valet\\Valet_2.jpg",
-      "PackagePath": "staticwebassets\\images\\Valet\\Valet_2.jpg"
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\reebok\\reebok.png",
+      "PackagePath": "staticwebassets\\brand\\reebok\\reebok.png"
     },
     {
-      "Id": "D:\\gram\\development\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Valet\\Valet_3.jpg",
-      "PackagePath": "staticwebassets\\images\\Valet\\Valet_3.jpg"
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\brand\\zudio\\zudio.png",
+      "PackagePath": "staticwebassets\\brand\\zudio\\zudio.png"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\jeans\\jeans.jpg",
+      "PackagePath": "staticwebassets\\category\\jeans\\jeans.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\pant\\pant.jpg",
+      "PackagePath": "staticwebassets\\category\\pant\\pant.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\shirt\\shirt.jpg",
+      "PackagePath": "staticwebassets\\category\\shirt\\shirt.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\category\\tshirt\\tshirt.webp",
+      "PackagePath": "staticwebassets\\category\\tshirt\\tshirt.webp"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Shirt Checked Blue\\H&M_Shirt Checked Blue_1.jpg",
+      "PackagePath": "staticwebassets\\images\\H&M_Shirt Checked Blue\\H&M_Shirt Checked Blue_1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Shirt Checked Blue\\H&M_Shirt Checked Blue_2.jpg",
+      "PackagePath": "staticwebassets\\images\\H&M_Shirt Checked Blue\\H&M_Shirt Checked Blue_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\H&M_Shirt Checked Blue\\H&M_Shirt Checked Blue_3.jpg",
+      "PackagePath": "staticwebassets\\images\\H&M_Shirt Checked Blue\\H&M_Shirt Checked Blue_3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_1.jpg",
+      "PackagePath": "staticwebassets\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_2.jpg",
+      "PackagePath": "staticwebassets\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_3.jpg",
+      "PackagePath": "staticwebassets\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_4.jpg",
+      "PackagePath": "staticwebassets\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_5.jpg",
+      "PackagePath": "staticwebassets\\images\\ModaRapido_Cool Beach Tshirt half\\ModaRapido_Cool Beach Tshirt half_5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Nike_Gucci Chaddi\\Nike_Gucci Chaddi_1.jfif",
+      "PackagePath": "staticwebassets\\images\\Nike_Gucci Chaddi\\Nike_Gucci Chaddi_1.jfif"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Raymonds_Classic Coat For formal wear\\Raymonds_Classic Coat For formal wear_1.jpg",
+      "PackagePath": "staticwebassets\\images\\Raymonds_Classic Coat For formal wear\\Raymonds_Classic Coat For formal wear_1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Raymonds_Classic Coat For formal wear\\Raymonds_Classic Coat For formal wear_2.jpg",
+      "PackagePath": "staticwebassets\\images\\Raymonds_Classic Coat For formal wear\\Raymonds_Classic Coat For formal wear_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Raymonds_Classic Coat For formal wear\\Raymonds_Classic Coat For formal wear_3.jpg",
+      "PackagePath": "staticwebassets\\images\\Raymonds_Classic Coat For formal wear\\Raymonds_Classic Coat For formal wear_3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_1.jpg",
+      "PackagePath": "staticwebassets\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_2.jpg",
+      "PackagePath": "staticwebassets\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_3.jpg",
+      "PackagePath": "staticwebassets\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_4.jpg",
+      "PackagePath": "staticwebassets\\images\\Roadster_Denim Jacket with attachable buttons\\Roadster_Denim Jacket with attachable buttons_4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Roadster_Shirt Checked Awesome\\Roadster_Shirt Checked Awesome_1.jpg",
+      "PackagePath": "staticwebassets\\images\\Roadster_Shirt Checked Awesome\\Roadster_Shirt Checked Awesome_1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Roadster_Shirt Checked Awesome\\Roadster_Shirt Checked Awesome_2.jpg",
+      "PackagePath": "staticwebassets\\images\\Roadster_Shirt Checked Awesome\\Roadster_Shirt Checked Awesome_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\User\\Downloads\\Dipesh\\Complete\\CoolC\\CoolCBackEnd\\wwwroot\\images\\Roadster_Shirt Checked Awesome\\Roadster_Shirt Checked Awesome_3.jpg",
+      "PackagePath": "staticwebassets\\images\\Roadster_Shirt Checked Awesome\\Roadster_Shirt Checked Awesome_3.jpg"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CoolCBackEnd.Microsoft.AspNetCore.StaticWebAssets.props",

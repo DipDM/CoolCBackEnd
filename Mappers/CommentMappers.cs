@@ -16,10 +16,11 @@ namespace CoolCBackEnd.Mappers
                 CommentId = commentModel.CommentId,
                 CommentText = commentModel.CommentText,
                 Rating = commentModel.Rating,
-                ProductId = commentModel.ProductId
+                ProductId = commentModel.ProductId,
+                UserId = commentModel.UserId,
+                UserName = commentModel.User?.UserName ?? "Unknown",
             };
         }
-
         public static Comment ToCommentFromCreate(this CreateCommentRequestDto commentDto, int ProductId)
         {
             return new Comment
@@ -29,7 +30,6 @@ namespace CoolCBackEnd.Mappers
                 ProductId = ProductId
             };
         }
-
         public static Comment ToCommentFromUpdate(this UpdateCommentRequestDto commentDto)
         {
             return new Comment

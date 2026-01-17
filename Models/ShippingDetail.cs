@@ -7,15 +7,13 @@ namespace CoolCBackEnd.Models
 {
     public class ShippingDetail
     {
-        public int ShippingDetailId { get; set; }  // Primary Key
-        public int OrderId { get; set; }           // Foreign Key
-        public int AddressId { get; set; }         // Foreign Key
+        public int ShippingDetailId { get; set; }
         public string ShippingStatus { get; set; }
         public string TrackingNumber { get; set; }
         public DateTime EstimatedDelivery { get; set; }
-
-        // Navigation properties
-        public Order? Order { get; set; }
-        public Address? Address { get; set; }
+        public Guid OrderId { get; set; } 
+        public Order Order { get; set; }
+        public int AddressId { get; set; } 
+        public Address Address { get; set; }
     }
 }

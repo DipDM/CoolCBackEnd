@@ -7,6 +7,6 @@ namespace CoolCBackEnd.Dtos.Cart
 {
     public class UpdateCartRequestDto
     {
-        
+        public decimal TotalAmount {get; set;}
     }
 }

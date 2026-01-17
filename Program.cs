@@ -1,38 +1,71 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CoolCBackEnd.Data;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Models;
 using CoolCBackEnd.Repository;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using DClothesAPI.Service;
-
+using CoolCBackEnd.Service;
+using System.Net.Mail;
+using System.Net;
+using PayPalCheckoutSdk.Core;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Add configuration
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+// Register SMTP settings
+var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+
+// Register services
+builder.Services.AddMemoryCache();
+
+builder.Services.AddSingleton(new SmtpClient
+{
+    Host = smtpSettings.Host,
+    Port = smtpSettings.Port,
+    EnableSsl = smtpSettings.EnableSsl,
+    Credentials = new NetworkCredential(smtpSettings.Username, smtpSettings.Password)
+});
+
+// Register EmailService with a single instance of SmtpClient
+builder.Services.AddScoped<IEmailService>(sp =>
+{
+    var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+    if (smtpSettings == null)
+    {
+        throw new InvalidOperationException("SMTP settings are not configured correctly.");
+    }
+    var smtpClient = sp.GetRequiredService<SmtpClient>();
+    return new EmailService(smtpClient, smtpSettings.FromAddress); 
+});
+
+
+
+
+// Register DbContext
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("siteDBConnection")));
 
-builder.Services.AddIdentity<User, IdentityRole>(options =>
+// Register Identity
+builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequiredLength = 8;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
-}).AddEntityFrameworkStores<ApplicationDBContext>()
+})
+.AddEntityFrameworkStores<ApplicationDBContext>()
 .AddDefaultTokenProviders();
-
-
 
 // Register repositories and services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -46,9 +79,26 @@ builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IShippingDetailRepository, ShippingDetailRepository>();
-builder.Services.AddScoped<ITokenService,TokenService>();
-
-
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ISizeRepository, SizeRepository>();
+builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+builder.Services.AddScoped<ICouponOrderRepository, CouponOrderRepository>();
+builder.Services.AddScoped<ICouponUserRepository, CouponUserRepository>();
+builder.Services.AddScoped<IOtpCacheService, OtpCacheService>();
+builder.Services.AddHostedService<UserCleanupService>();
+builder.Services.AddScoped<IUserCleanupService, UserCleanupService>();
+builder.Services.AddScoped<IEmailService>(sp =>
+{
+    var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>();
+    if (smtpSettings == null)
+    {
+        throw new InvalidOperationException("SMTP settings are not configured correctly.");
+    }
+    var smtpClient = sp.GetRequiredService<SmtpClient>();
+    return new EmailService(smtpClient, smtpSettings.FromAddress);
+});
+// Configure Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -67,6 +117,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configure MVC and Swagger
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
@@ -104,8 +155,8 @@ builder.Services.AddSwaggerGen(option =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
             },
             new string[]{}
@@ -113,32 +164,75 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-builder.Services.AddHttpClient();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Configure PayPal settings from `appsettings.json`
+builder.Services.Configure<PayPalOptions>(builder.Configuration.GetSection("PayPal"));
 
-builder.Services.AddCors(options =>
+// Add custom service to create PayPal client instance
+builder.Services.AddScoped(sp =>
+{
+    // Fetch PayPalOptions using IOptions pattern
+    var options = sp.GetRequiredService<IOptions<PayPalOptions>>().Value;
+
+    PayPalEnvironment environment;
+
+    // Explicitly create the environment based on configuration
+    if (options.Environment == "sandbox")
+    {
+        environment = new SandboxEnvironment(options.ClientId, options.ClientSecret);
+    }
+    else
+    {
+        environment = new LiveEnvironment(options.ClientId, options.ClientSecret);
+    }
+
+    // Return a new instance of PayPalHttpClient configured with the chosen environment
+    return new PayPalHttpClient(environment);
+});
+
+// Configure CORS
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowSpecificOrigin",
+//         policy =>
+//         {
+//             policy.WithOrigins("http://192.168.138.164:5173")
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod();
+//         });
+// });
+
+builder.Services.AddCors(options => 
 {
     options.AddPolicy("AllowSpecificOrigin",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:5173")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
 });
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo API V1");
-        c.RoutePrefix = "swagger"; // Set Swagger UI at the app's root
+        c.RoutePrefix = "swagger";
     });
+
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -146,8 +240,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // If you have authentication
-app.UseAuthorization();  // If you have authorization configured
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors("AllowSpecificOrigin");
 

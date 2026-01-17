@@ -4,10 +4,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
+using CoolCBackEnd.Data;
 using CoolCBackEnd.Dtos.Comment;
 using CoolCBackEnd.Interfaces;
 using CoolCBackEnd.Mappers;
+using CoolCBackEnd.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoolCBackEnd.Controllers
 {
@@ -17,11 +21,14 @@ namespace CoolCBackEnd.Controllers
     {
         private readonly ICommentRepository _commentRepo;
         private readonly IProductRepository _productRepo;
-
-        public CommentController(ICommentRepository commentRepo, IProductRepository productRepo)
+        private readonly UserManager<User> _userManager;
+        private readonly ApplicationDBContext _context;
+        public CommentController(ICommentRepository commentRepo, IProductRepository productRepo, ApplicationDBContext context, UserManager<User> userManager)
         {
             _commentRepo = commentRepo;
             _productRepo = productRepo;
+            _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -31,10 +38,40 @@ namespace CoolCBackEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var comments = await _commentRepo.GetAllAsync();
-            var commentDto = comments.Select(c => c.ToCommentDto());
 
-            return Ok(commentDto);
+            // Get all comments from the repository
+            var comments = await _commentRepo.GetAllAsync();
+
+            // Create a list to hold the comment DTOs
+            var commentDtos = new List<CommentDto>();
+
+            foreach (var comment in comments)
+            {
+                // User should be included with the comment now
+                var user = comment.User;  // Access User directly
+
+                // If the user doesn't exist, you can choose to either skip or return an error
+                if (user == null)
+                {
+                    continue; // Skip this comment or handle accordingly (e.g., return an error response)
+                }
+
+                // Convert each comment to a CommentDto and include the UserName
+                var commentDto = new CommentDto
+                {
+                    CommentId = comment.CommentId,
+                    UserId = comment.UserId,
+                    CommentText = comment.CommentText,
+                    Rating = comment.Rating,
+                    UserName = user.UserName, // Get the UserName
+                    ProductId = comment.ProductId
+                };
+
+                // Add the comment DTO to the list
+                commentDtos.Add(commentDto);
+            }
+
+            return Ok(commentDtos);
         }
 
         [HttpGet("{CommentId:int}")]
@@ -51,25 +88,39 @@ namespace CoolCBackEnd.Controllers
                 return NotFound();
             }
 
-            return Ok(comment.ToCommentDto());
+            // Convert the Comment to CommentDto
+            var commentDto = comment.ToCommentDto();
+
+            return Ok(commentDto);
         }
 
         [HttpPost("{productId:int}")]
-        public async Task<IActionResult> Create([FromRoute] int productId, [FromForm] CreateCommentRequestDto commentDto)
+        public async Task<IActionResult> Create(int productId, [FromBody] CreateCommentRequestDto commentDto)
         {
-            if (!ModelState.IsValid)
+            // Validate UserId
+            var user = await _context.Users
+                                      .Where(u => u.Id == commentDto.UserId)
+                                      .Select(u => new { u.Id, u.UserName })
+                                      .FirstOrDefaultAsync();
+
+            if (user == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid UserId. User does not exist.");
             }
 
-            if (!await _productRepo.ProductExists(productId))
+            // Create the Comment
+            var comment = new Comment
             {
-                return NotFound("The Model Does not Exisst U ");
-            }
+                ProductId = productId,
+                UserId = user.Id,
+                UserName = user.UserName,  // Assign UserName here
+                CommentText = commentDto.CommentText,
+                Rating = commentDto.Rating,
+                // set other fields as needed
+            };
 
-            var commentModel = commentDto.ToCommentFromCreate(productId);
-            await _commentRepo.CreatedAsync(commentModel);
-            return CreatedAtAction(nameof(GetById), new { CommentId = commentModel.CommentId }, commentModel.ToCommentDto());
+            await _commentRepo.CreatedAsync(comment);
+            return Ok("Comment created successfully");
         }
 
         [HttpPut]
@@ -87,12 +138,12 @@ namespace CoolCBackEnd.Controllers
                 return NotFound();
             }
 
-            if(!string.IsNullOrEmpty(commentupdateDto.CommentText))
+            if (!string.IsNullOrEmpty(commentupdateDto.CommentText))
             {
                 existingComment.CommentText = commentupdateDto.CommentText;
             }
 
-            if(commentupdateDto.Rating.HasValue)
+            if (commentupdateDto.Rating.HasValue)
             {
                 existingComment.Rating = commentupdateDto.Rating.Value;
             }

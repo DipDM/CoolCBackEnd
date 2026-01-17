@@ -26,7 +26,6 @@ namespace CoolCBackEnd.Mappers
     {
         return new ShippingDetail
         {
-            // Generating a new UUID for the entity
             OrderId = createDto.OrderId,
             AddressId = createDto.AddressId,
             ShippingStatus = createDto.ShippingStatus,

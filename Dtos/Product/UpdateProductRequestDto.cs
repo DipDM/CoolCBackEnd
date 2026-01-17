@@ -15,8 +15,8 @@ namespace CoolCBackEnd.Dtos.Product
         [MaxLength(100, ErrorMessage = "Model name should be ove 10 characters")]
         public string? Description { get; set; } = string.Empty;
         [Range(1 , 10000)]
-        public decimal? Price { get; set; }
-        public int? CategoryId {get; set;}
-        public int? BrandId {get; set;}
+        public decimal Price { get; set; }
+        public int CategoryId {get; set;}
+        public int BrandId {get; set;}
     }
 }

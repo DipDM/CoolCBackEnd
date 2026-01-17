@@ -10,9 +10,15 @@ namespace CoolCBackEnd.Models
     {
         [Key]
         public Guid OrderId {get; set;}
-        public string OrderStatus{get; set;}
-        public string PaymentStatus{get; set;}
-        public int TotalAmount{get; set;}
+        public string OrderStatus{get; set;} = "Pending";
+        public string PaymentStatus{get; set;} = "Pending";
+        public Payment Payment {get; set;}
+        public DateTime OrderDate {get; set;} = DateTime.Now;
+        public decimal TotalAmount{get; set;}
+        public Guid UserId {get; set;}
+        public User User {get; set;}
         public ICollection<OrderItem> OrderItems{get; set;}
+        public ICollection<ShippingDetail> ShippingDetails {get; set;}
+        public ICollection<Payment> Payments {get; set;}
     }
 }

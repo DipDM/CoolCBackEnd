@@ -18,15 +18,23 @@ namespace CoolCBackEnd.Repository
         }
         public async Task<Comment> CreatedAsync(Comment commentModel)
         {
-            await _context.Comments.AddAsync(commentModel);
+            // Ensure the UserId is valid before saving
+            var userExists = await _context.Users.AnyAsync(u => u.Id == commentModel.UserId);
+            if (!userExists)
+            {
+                throw new Exception("Invalid UserId. The user does not exist.");
+            }
+
+            _context.Comments.Add(commentModel);
             await _context.SaveChangesAsync();
             return commentModel;
         }
 
+
         public async Task<Comment> DeleteAsync(int CommentId)
         {
             var commentModel = await _context.Comments.FirstOrDefaultAsync(x => x.CommentId == CommentId);
-            if(commentModel == null)
+            if (commentModel == null)
             {
                 return null;
             }
@@ -37,18 +45,18 @@ namespace CoolCBackEnd.Repository
 
         public async Task<List<Comment>> GetAllAsync()
         {
-            return await _context.Comments.ToListAsync();
+            return await _context.Comments.Include(c => c.User).ToListAsync();
         }
 
         public async Task<Comment> GetByIdAsync(int CommentId)
         {
-            return await _context.Comments.FirstOrDefaultAsync(x => x.CommentId == CommentId);
+            return await _context.Comments.Include(c => c.User).FirstOrDefaultAsync(x => x.CommentId == CommentId);
         }
 
         public async Task<Comment> UpdatedAsync(int CommentId, Comment commentModel)
         {
             var existingComment = await _context.Comments.FirstAsync();
-            if(existingComment == null)
+            if (existingComment == null)
             {
                 return null;
             }
